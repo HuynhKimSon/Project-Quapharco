@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>QUAPHARCO System</title>
+    <meta name="description" content="QUAPHARCO System">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <link href="../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet" />
+    <link href="../static/app/css/app.css" th:href="@{/app/css/app.css?v=4.6.1}" rel="stylesheet" />
+    <!-- 360 browser fast mode -->
+    <meta name="renderer" content="webkit">
+    <!-- Avoid IE using compatibility mode -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{favicon.ico}" />
+    <style type="text/css">
+        label.error {
+            position: inherit;
+        }
+    </style>
+    <script>
+        if (window.top !== window.self) { alert('Chưa đăng nhập hoặc đăng nhập đã hết thời gian. xin vui lòng đăng nhập lại'); window.top.location = window.location };
+    </script>
+</head>
+
+<body class="signin">
+    <div class="signinpanel" style="float:none">
+        <div class="row">
+
+            <div class="col-sm-12">
+                <form id="signupForm" autocomplete="off">
+                	<h2 class="text-center font-weight-bold" style="margin-bottom: 30px;">QUAPHARCO System</h2>
+                	<h4>Đăng nhập</h4>
+                    <input type="text" name="username" class="form-control uname" placeholder="Tên tài khoản" />
+                    <input type="password" name="password" class="form-control pword" placeholder="Mật khẩu"
+                        autocomplete="true" />
+                    <div class="row m-t" th:if="${captchaEnabled==true}">
+                        <div class="col-xs-6">
+                            <input type="text" name="validateCode" class="form-control code" placeholder="Mã xác nhận"
+                                maxlength="5" />
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="javascript:void(0);" title="Nhấp để thay thế mã xác minh">
+                                <img th:src="@{/captcha/captchaImage(type=${captchaType})}" class="imgcode"
+                                    width="85%" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'">
+                        <input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme">Ghi
+                            nhớ</label>
+                    </div>
+                    <button class="btn btn-success btn-block" id="btnSubmit"
+                        data-loading="Đang xác minh，vui lòng đợi...">Đăng nhập</button>
+                </form>
+            </div>
+        </div>
+        <div class="signup-footer">
+            <div class="pull-left">
+                Copyright © 2021. All Rights Reserved <br>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
+    <!--[if lte IE 8]><script>window.location.href=ctx+'html/ie.html';</script><![endif]-->
+    <!-- Global js -->
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <!-- 验证插件 -->
+    <script src="../static/ajax/libs/validate/jquery.validate.min.js"
+        th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+    <script src="../static/ajax/libs/validate/messages_en.min.js"
+        th:src="@{/ajax/libs/validate/messages_en.min.js}"></script>
+    <script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script src="../static/ajax/libs/blockUI/jquery.blockUI.js"
+        th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+    <script src="../static/app/js/app.js" th:src="@{/app/js/app.js?v=4.6.1}"></script>
+    <script src="../static/app/login.js" th:src="@{/app/login.js}"></script>
+</body>
+
+</html>

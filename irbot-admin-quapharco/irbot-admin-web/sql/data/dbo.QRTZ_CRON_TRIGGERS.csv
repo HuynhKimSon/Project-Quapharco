@@ -1,0 +1,5 @@
+﻿"sched_name","trigger_name","trigger_group","cron_expression","time_zone_id"
+"IrtechScheduler","TASK_CLASS_NAME1","DEFAULT","0 0/5 * * * ?","Asia/Bangkok"
+"IrtechScheduler","TASK_CLASS_NAME2","DEFAULT","0 0 9 * * ?","Asia/Bangkok"
+"IrtechScheduler","TASK_CLASS_NAME3","DEFAULT","0/30 * * * * ?","Asia/Bangkok"
+"IrtechScheduler","TASK_CLASS_NAME4","DEFAULT","0/30 * * * * ?","Asia/Bangkok"

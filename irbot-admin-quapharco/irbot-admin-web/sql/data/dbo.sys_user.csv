@@ -1,0 +1,4 @@
+﻿"user_id","dept_id","login_name","user_name","user_type","email","phonenumber","sex","avatar","password","salt","status","del_flag","login_ip","login_date","pwd_update_date","create_by","create_time","update_by","update_time","remark"
+1,200,"admin","Admin","00","admin@gmail.com","0123456789","0","","29c67a30398638269fe600f73a054934","111111","0","0","113.176.195.221",5/20/2022 4:06:23 PM.697,12/2/2021 2:06:02 PM,"admin",12/2/2021 2:06:02 PM,"",5/20/2022 4:06:23 PM.703,"???"
+2,100,"robot_lk","Phân xưởng Làng Khánh","00","","","0","","49f026f72803f249dcc3c51a788e4f98","f7c2fb","0","2","",,,"admin",5/9/2022 9:58:36 AM.523,"",,
+3,200,"robot","robot","00","","","0","","d2753126e8642d87b1386fa89d58a292","579304","0","0","113.176.195.221",5/9/2022 11:36:50 AM.743,,"admin",5/9/2022 11:17:09 AM.970,"",5/9/2022 11:36:50 AM.763,

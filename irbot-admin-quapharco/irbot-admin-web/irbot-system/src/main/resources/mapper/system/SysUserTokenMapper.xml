@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vn.com.irtech.irbot.system.mapper.SysUserTokenMapper">
+    
+    <resultMap type="SysUserToken" id="SysUserTokenResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userType"    column="user_type"    />
+        <result property="userLoginToken"    column="user_login_token"    />
+        <result property="deviceToken"    column="device_token"    />
+        <result property="expireTime"    column="expire_time"    />
+        <result property="expireFlg"    column="expire_flg"    />
+        <result property="loginIp"    column="login_ip"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectSysUserTokenVo">
+        select id, user_id, user_type, user_login_token, device_token, expire_time, expire_flg, login_ip, create_time, create_by, update_time, update_by from sys_user_token
+    </sql>
+
+    <select id="selectSysUserTokenList" parameterType="SysUserToken" resultMap="SysUserTokenResult">
+        <include refid="selectSysUserTokenVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userType != null "> and user_type = #{userType}</if>
+            <if test="userLoginToken != null  and userLoginToken != ''"> and user_login_token = #{userLoginToken}</if>
+            <if test="deviceToken != null  and deviceToken != ''"> and device_token = #{deviceToken}</if>
+            <if test="expireTime != null "> and expire_time = #{expireTime}</if>
+            <if test="expireFlg != null "> and expire_flg = #{expireFlg}</if>
+            <if test="loginIp != null  and loginIp != ''"> and login_ip = #{loginIp}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysUserTokenById" parameterType="Long" resultMap="SysUserTokenResult">
+        <include refid="selectSysUserTokenVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysUserToken" parameterType="SysUserToken">
+        insert into sys_user_token
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userType != null">user_type,</if>
+            <if test="userLoginToken != null and userLoginToken != ''">user_login_token,</if>
+            <if test="deviceToken != null and deviceToken != ''">device_token,</if>
+            <if test="expireTime != null">expire_time,</if>
+            <if test="expireFlg != null">expire_flg,</if>
+            <if test="loginIp != null">login_ip,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userType != null">#{userType},</if>
+            <if test="userLoginToken != null and userLoginToken != ''">#{userLoginToken},</if>
+            <if test="deviceToken != null and deviceToken != ''">#{deviceToken},</if>
+            <if test="expireTime != null">#{expireTime},</if>
+            <if test="expireFlg != null">#{expireFlg},</if>
+            <if test="loginIp != null">#{loginIp},</if>
+            <if test="createBy != null">#{createBy},</if>
+            getdate()
+         </trim>
+    </insert>
+
+    <update id="updateSysUserToken" parameterType="SysUserToken">
+        update sys_user_token
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userType != null">user_type = #{userType},</if>
+            <if test="userLoginToken != null and userLoginToken != ''">user_login_token = #{userLoginToken},</if>
+            <if test="deviceToken != null and deviceToken != ''">device_token = #{deviceToken},</if>
+            <if test="expireTime != null">expire_time = #{expireTime},</if>
+            <if test="expireFlg != null">expire_flg = #{expireFlg},</if>
+            <if test="loginIp != null">login_ip = #{loginIp},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = getdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysUserTokenById" parameterType="Long">
+        delete from sys_user_token where id = #{id}
+    </delete>
+
+    <delete id="deleteSysUserTokenByIds" parameterType="String">
+        delete from sys_user_token where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteUserTokenByUserToken" parameterType="String">
+        delete from sys_user_token where user_login_token = #{userLoginToken}
+    </delete>
+
+    <select id="getListDeviceTokenByUserId" parameterType="Long" resultType="String">
+        select device_token from sys_user_token
+        where user_id = #{userId} and (expire_flg = 0 or expire_time &lt; getdate() )
+    </select>
+
+</mapper>

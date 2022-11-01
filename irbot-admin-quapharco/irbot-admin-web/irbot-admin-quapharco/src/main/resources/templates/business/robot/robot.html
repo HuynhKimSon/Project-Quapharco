@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('Robot list')" />
+    <link th:href="@{/app/css/business/robot/robot.css}" rel="stylesheet" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+				<form id="menu-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								<span class="font-bold">UUID: </span><input type="text" name="uuId" onkeyup="" />
+							</li>
+							<li>
+								<span class="font-bold">Địa chỉ IP: </span><input type="text" name="ipAddress" />
+							</li>
+							<!-- <li>
+								<span class="font-bold">Loại dịch vụ: </span>
+								<select name="serviceType" onchange="$.table.search()">
+									<option value="">Tất cả</option>
+									<option value="1">Đồng bộ đơn đặt hàng</option>
+								</select>
+							</li> -->
+							<li>
+								<span class="font-bold">Trạng thái: </span>
+								<select name="status" onchange="$.table.search()">
+									<option value="">Tất cả</option>
+									<option value="0">Offline</option>
+									<option value="1">Busy</option>
+									<option value="2">Available</option>
+								</select>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+										class="fa fa-search">
+										Tìm
+										kiếm</i>&nbsp;</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+										class="fa fa-refresh"> Làm
+										mới</i>&nbsp;</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" id="btnAdd" shiro:hasPermission="business:robot:add">
+					<i class="fa fa-plus"> Thêm</i>
+				</a>
+				<a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+					shiro:hasPermission="business:robot:edit">
+					<i class="fa fa-edit"> Sửa</i>
+				</a>
+				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+					shiro:hasPermission="business:robot:remove">
+					<i class="fa fa-remove"> Xóa</i>
+				</a>
+			</div>
+
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table"></table>
+			</div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+        var addFlag = [[${@permission.hasPermi('business:robot:add') }]];
+		var editFlag = [[${@permission.hasPermi('business:robot:edit') }]];
+        var removeFlag = [[${@permission.hasPermi('business:robot:remove') }]];
+    </script>
+    <script th:src="@{/app/js/business/robot/robot.js}"></script>
+</body>
+</html>

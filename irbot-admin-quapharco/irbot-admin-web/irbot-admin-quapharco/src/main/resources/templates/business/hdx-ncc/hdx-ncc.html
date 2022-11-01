@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('Quan ly hoa don Danh sách')" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>Số chứng từ：</label>
+                                <input type="text" name="params[fastInvoiceNo]" />
+                            </li>
+                            <li>
+                                <label>Chi nhánh：</label>
+                                <select name="unitCode">
+                                </select>
+                            </li>
+                            <li>
+                                <label>Trạng thái：</label>
+                                <select name="status">
+                                    <option selected value="">Tất cả</option>
+                                    <option value="0">Chưa làm </option>
+                                    <option value="1">Chờ thực hiện </option>
+                                    <option value="2">Đã gửi</option>
+                                    <option value="3">Đang làm </option>
+                                    <option value="4">Thất bại </option>
+                                    <option value="5">Thành công</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Ngày tạo ：</label>
+                                <input type="text" class="time-input" placeholder="xin vui lòng chọn"
+                                    name="params[beginTime]" />
+                                <span> - </span>
+                                <input type="text" class="time-input" placeholder="xin vui lòng chọn"
+                                    name="params[endTime]" />
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success multiple disabled" onclick="retry()">
+                    <i class="fa fa-repeat"></i> Gửi robot
+                </a>
+                <a class="btn btn-primary multiple disabled" onclick="checkModify()">
+                    <i class="fa fa-check"></i> Kiểm tra điều chỉnh
+                </a>
+                <a class="btn btn-warning multiple disabled" onclick="updateStatus()">
+                    <i class="fa fa-refresh"></i> Cập nhật trạng thái
+                </a>
+                <a class="btn btn-success multiple disabled" onclick="updateMode()">
+                    <i class="fa fa-refresh"></i> Cập nhật loại phiếu
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript" th:inline="javascript">
+        var branchCompanyOptions = /*[[${branchCompanyOptions}]]*/;
+        $.each(branchCompanyOptions, function (index, option) {
+            $("select[name=unitCode]").append('<option value="' + index + '">' + option + '</option>')
+        });
+    </script>
+    <script th:src="@{/app/js/business/hdx-ncc/hdx-ncc.js}"></script>
+    <script th:inline="javascript">
+    </script>
+</body>
+
+</html>

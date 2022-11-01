@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <th:block th:include="include :: header('Kiểm tra điều chỉnh')" />
+  <style th:inline="css">
+    input[type=radio] {
+      margin: 2px 0 0;
+    }
+  </style>
+</head>
+
+<body class="white-bg">
+  <div class="btn-group-sm" id="toolbar" role="group">
+    <a class="btn btn-success multiple disabled" onclick="confirmModify()">
+      <i class="fa fa-check"></i> Xác nhận
+    </a>
+  </div>
+  <div class="col-sm-12 select-table table-striped">
+    <table id="bootstrap-table"></table>
+  </div>
+  <th:block th:include="include :: footer" />
+  <script type="text/javascript" th:inline="javascript">
+    var result = /*[[${result}]]*/;
+  </script>
+  <script th:src="@{/app/js/business/hdbh-cn/check-modify.js}"></script>
+</body>
+
+</html>

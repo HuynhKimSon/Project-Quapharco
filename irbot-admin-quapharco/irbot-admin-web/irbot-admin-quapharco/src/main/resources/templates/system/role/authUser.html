@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+	<th:block th:include="include :: header('Phân công vai trò người dùng')" />
+</head>
+
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="role-form">
+					<input type="hidden" id="roleId" name="roleId" th:value="${role.roleId}">
+					<div class="select-list">
+						<ul>
+							<li>
+								Tên đăng nhập:<input type="text" name="loginName" />
+							</li>
+							<li>
+								Số điện thoại di động:<input type="text" name="phonenumber" />
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+										class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+										class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="selectUser()" shiro:hasPermission="system:role:add">
+					<i class="fa fa-plus"></i> Thêm người dùng
+				</a>
+				<a class="btn btn-danger multiple disabled" onclick="cancelAuthUserAll()"
+					shiro:hasPermission="system:role:remove">
+					<i class="fa fa-remove"></i> Hủy ủy quyền hàng loạt
+				</a>
+				<a class="btn btn-warning" onclick="closeItem()">
+					<i class="fa fa-reply-all"></i> Tắt
+				</a>
+			</div>
+
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var removeFlag = [[${@permission.hasPermi('system:role:remove') }]];
+		var datas = [[${@dict.getType('sys_normal_disable') }]];
+	</script>
+	<script th:src="@{/app/js/system/role/authUser.js}"></script>
+
+</body>
+
+</html>

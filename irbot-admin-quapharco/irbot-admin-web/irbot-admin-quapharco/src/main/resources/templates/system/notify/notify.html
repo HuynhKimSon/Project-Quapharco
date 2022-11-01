@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('List Notification')" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>Title：</label>
+                                <input type="text" name="title" />
+                            </li>
+                            <li>
+                                <label>Content：</label>
+                                <input type="text" name="content" />
+                            </li>
+                            <li>
+                                <label>Level：</label>
+                                <select name="notifyLevel" th:with="type=${@dict.getType('sys_notice_type')}">
+                                    <option value="">All</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Link：</label>
+                                <input type="text" name="notifyLink" />
+                            </li>
+                            <li>
+                                <label>Status：</label>
+                                <select name="status" th:with="type=${@dict.getType('sys_notice_status')}">
+                                    <option value="">All</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i>&nbsp;Search</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:notify:add">
+                    <i class="fa fa-plus"></i> Add
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+                    shiro:hasPermission="system:notify:edit">
+                    <i class="fa fa-edit"></i> Edit
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+                    shiro:hasPermission="system:notify:remove">
+                    <i class="fa fa-remove"></i> Delete
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:notify:export">
+                    <i class="fa fa-download"></i> Export
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:notify:edit') }]];
+        var removeFlag = [[${@permission.hasPermi('system:notify:remove') }]];
+        var notifyLevelDatas = [[${@dict.getType('sys_notice_type') }]];
+        var statusDatas = [[${@dict.getType('sys_notice_status') }]];
+    </script>
+    <script th:src="@{/app/js/system/notify/notify.js}"></script>
+</body>
+
+</html>

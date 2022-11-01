@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+	<th:block th:include="include :: header('Danh sách nhật ký hoạt động')" />
+	<th:block th:include="include :: bootstrap-select-css" />
+</head>
+
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="operlog-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								<label>Module hệ thống：</label><input type="text" name="title" />
+							</li>
+							<!-- <li>
+								<label>Nhà điều hành：</label><input type="text" name="operName" />
+							</li> -->
+							<li class="select-selectpicker">
+								<label>Loại hoạt động：</label><select id="businessTypes"
+									th:with="type=${@dict.getType('sys_oper_type')}" class="selectpicker"
+									data-none-selected-text="Xin vui lòng chọn" multiple>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+										th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li>
+								<label>Tình trạng hoạt động：</label><select name="status"
+									th:with="type=${@dict.getType('sys_common_status')}">
+									<option value="">Tất cả</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+										th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li class="select-time">
+								<label>Thời gian hoạt động：</label>
+								<input type="text" class="time-input" id="startTime" placeholder="Từ ngày"
+									name="params[beginTime]" autocomplete="off" />
+								<span>-</span>
+								<input type="text" class="time-input" id="endTime" placeholder="Đến ngày"
+									name="params[endTime]" autocomplete="off" />
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="searchPre()"><i
+										class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()"><i
+										class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+					shiro:hasPermission="monitor:operlog:remove">
+					<i class="fa fa-remove"></i> Xóa
+				</a>
+				<a class="btn btn-danger" onclick="$.operate.clean()" shiro:hasPermission="monitor:operlog:remove">
+					<i class="fa fa-trash"></i> Trống
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="monitor:operlog:export">
+					<i class="fa fa-download"></i> Xuất excel
+				</a>
+			</div>
+
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: bootstrap-select-js" />
+	<th:block th:include="include :: common-input" />
+	<script th:inline="javascript">
+		var detailFlag = [[${@permission.hasPermi('monitor:operlog:detail') }]];
+		var datas = [[${@dict.getType('sys_oper_type') }]];
+		var prefix = ctx + "monitor/operlog";
+		var screenHeight = $(document).height(); // Height of screen
+		console.log(SEARCH_HEIGHT);
+
+		$(function () {
+			var options = {
+				url: prefix + "/list",
+				cleanUrl: prefix + "/clean",
+				detailUrl: prefix + "/detail/{id}",
+				removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+				queryParams: queryParams,
+				sortName: "operTime",
+				sortOrder: "desc",
+				modalName: "Nhật ký hoạt động",
+				// escape: true,
+				// showPageGo: true,
+				// rememberSelected: true,
+				height: screenHeight - SEARCH_HEIGHT,
+				columns: [{
+					field: 'state',
+					checkbox: true
+				},
+				{
+					field: 'operId',
+					title: 'ID',
+					visible: false
+				},
+				{
+					title: "STT",
+					sortable: true,
+					formatter: function (value, row, index) {
+						return $.table.serialNumber(index);
+					}
+				},
+				{
+					field: 'title',
+					title: 'Mô-đun hệ thống'
+				},
+				{
+					field: 'businessType',
+					title: 'Loại hoạt động',
+					align: 'center',
+					formatter: function (value, row, index) {
+						return $.table.selectDictLabel(datas, value);
+					}
+				},
+				{
+					field: 'operName',
+					title: 'Nhà điều hành',
+					sortable: true
+				},
+				{
+					field: 'deptName',
+					title: 'Tên bộ phận'
+				},
+				{
+					field: 'operIp',
+					title: 'Tổ chức'
+				},
+				{
+					field: 'operLocation',
+					title: 'Địa điểm hoạt động'
+				},
+				{
+					field: 'status',
+					title: 'Trạng thái',
+					align: 'center',
+					formatter: function (value, row, index) {
+						if (value == 0) {
+							return '<span class="badge badge-primary">Thành công</span>';
+						} else if (value == 1) {
+							return '<span class="badge badge-danger">Thất bại</span>';
+						}
+					}
+				},
+				{
+					field: 'operTime',
+					title: 'Thời gian hoạt động',
+					sortable: true
+				},
+				{
+					title: 'Hành động',
+					align: 'center',
+					formatter: function (value, row, index) {
+						var actions = [];
+						actions.push('<a class="btn btn-warning btn-xs ' + detailFlag + '" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.operId + '\')"><i class="fa fa-search"></i>Chi tiết</a>');
+						return actions.join('');
+					}
+				}]
+			};
+			$.table.init(options);
+		});
+
+		function queryParams(params) {
+			var search = $.table.queryParams(params);
+			search.businessTypes = $.common.join($('#businessTypes').selectpicker('val'));
+			return search;
+		}
+
+		function searchPre() {
+			$.table.search('operlog-form', 'bootstrap-table');
+		}
+
+		function resetPre() {
+			$("#operlog-form")[0].reset();
+			$("#businessTypes").selectpicker('refresh');
+			$.table.search('operlog-form', 'bootstrap-table');
+		}
+	</script>
+</body>
+
+</html>

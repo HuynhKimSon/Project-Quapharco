@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="vn.com.irtech.api.mapper.HddvMapper">
+	<select id="getListMaster" parameterType= "vn.com.irtech.api.dto.request.GetBillDataReq" 
+	resultType="vn.com.irtech.api.dto.response.HddvMasterRes">
+			SELECT
+			     RTRIM (LTRIM (stt_rec)) AS fast_id
+			    ,  RTRIM (LTRIM (so_ct)) AS fast_invoice_no
+			    ,  RTRIM (LTRIM (ma_dvcs)) AS unit_code
+			    ,  RTRIM (LTRIM (ma_kh)) AS customer_id
+			    ,  RTRIM (LTRIM (ong_ba)) AS buyer_name
+			    ,  RTRIM (LTRIM (ong_ba)) AS customer_name
+			    ,  RTRIM (LTRIM (( 
+			        SELECT
+			            ma_so_thue 
+			        FROM
+			            dmkh AS b 
+			        WHERE
+			            (a.ma_kh = ma_kh)
+			    ))) AS customer_tax_code
+			    ,  RTRIM (LTRIM (dia_chi)) AS address
+			    , ngay_ct AS invoice_date
+			    ,  RTRIM (LTRIM (dien_giai)) AS description
+			    , t_thue_nt AS total_tax_amount
+			    , t_tien_nt2 AS subtotal_amount
+			    , t_tt_nt AS total_amount
+			    ,  RTRIM (LTRIM (ma_tt)) AS payment_method
+			    ,  RTRIM (LTRIM (status)) 
+			FROM
+			    ph21 AS a 
+			WHERE
+			    1 = 1
+			    <if test="startDate != null ">AND ngay_ct BETWEEN CONVERT(DATETIME, #{startDate}) AND CONVERT(DATETIME, #{endDate})</if>
+		    	<if test="fastInvoiceNo != null and fastInvoiceNo != ''"> AND  RTRIM (LTRIM (so_ct)) like concat( RTRIM (LTRIM (#{fastInvoiceNo})), '%')</if>
+		    	<if test="fastId != null and fastId != ''"> AND  RTRIM (LTRIM (stt_rec)) =  RTRIM (LTRIM (#{fastId}))</if>
+			ORDER BY
+			    stt_rec
+	</select>
+	
+	<select id="getDetails" parameterType= "String" 
+	resultType="vn.com.irtech.api.dto.response.HddvDetailRes">
+			SELECT
+			     RTRIM (LTRIM (stt_rec)) AS fast_id
+			    ,  RTRIM (LTRIM (stt_rec0)) AS fast_detail_id
+			    ,  RTRIM (LTRIM (dien_giai)) AS product_name
+			    ,  RTRIM (LTRIM (ma_thue)) AS product_tax_id
+			    , thue_nt AS product_tax_amount
+			    , tien_nt2 AS product_subtotal_amount
+			    , (tien_nt2 + thue_nt) AS product_total_amount 
+			FROM
+			    ct21 AS a 
+			WHERE
+			    (RTRIM (LTRIM (stt_rec)) = #{fastId}
+			ORDER BY
+			    stt_rec0
+	</select>
+	
+	<update id="updateInvoiceNo" parameterType= "vn.com.irtech.api.dto.request.UpdateInvoiceNoReq">
+			UPDATE ph21
+			SET 
+				so_ct = #{fastInvoiceNo}
+			where 
+				(RTRIM (LTRIM (stt_rec)) = #{fastId})
+	</update>
+</mapper>

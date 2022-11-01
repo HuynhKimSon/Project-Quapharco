@@ -1,0 +1,8 @@
+/.apt_generated_tests/
+/.apt_generated_tests
+/target/
+/logs/
+/.settings/
+/.classpath
+/.factorypath
+/.project

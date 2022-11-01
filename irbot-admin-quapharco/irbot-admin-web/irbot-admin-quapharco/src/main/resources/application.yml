@@ -1,0 +1,95 @@
+app:
+  name: IRBOT ADMIN
+  version: 1.0.0
+  copyrightYear: 2022
+  demoEnabled: false
+  addressEnabled: true
+  cacheExpireTime: 3600
+
+server:
+  port: 6360
+  servlet:
+    context-path: /admin
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 800
+    min-spare-threads: 30
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+
+logging:
+  level:
+    vn.com.irtech.invoice: debug
+    org.springframework: warn
+
+user:
+  password:
+    maxRetryCount: 5
+
+spring:
+  thymeleaf:
+    mode: HTML
+    encoding: utf-8
+    cache: false
+  messages:
+    basename: static/i18n/messages
+  jackson:
+    time-zone: GMT+7
+    date-format: yyyy-MM-dd HH:mm:ss
+  profiles:
+    active: uat                        # Environment
+  servlet:
+    multipart:
+      max-file-size:  10MB
+      max-request-size:  20MB
+  devtools:
+    restart:
+      enabled: true
+
+  redis:
+    enabled: false
+  firebase:
+    enabled: false
+
+mybatis:
+    typeAliasesPackage: vn.com.irtech.core.**.domain, vn.com.irtech.irbot.**.domain
+    mapperLocations: classpath*:mapper/**/*Mapper.xml
+    configLocation: classpath:mybatis/mybatis-config.xml
+
+pagehelper: 
+  helperDialect: sqlserver
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql 
+
+shiro:
+  user:
+    loginUrl: /login
+    unauthorizedUrl: /unauth
+    indexUrl: /index
+    captchaEnabled: false
+    captchaType: math
+  cookie:
+    domain: 
+    path: /
+    httpOnly: true
+    maxAge: 720
+    cipherKey: zSyK5Kp6PZAAjlT+eeNMlg==
+  session:
+    expireTime: 720
+    dbSyncPeriod: 1
+    validationInterval: 10
+    maxSession: -1
+    kickoutAfter: false
+
+xss: 
+  enabled: true
+  excludes: /system/notice/*
+  urlPatterns: /system/*,/monitor/*,/tool/*
+
+websocket:
+  endpoint: /ws
+  prefix : irt
+  broker: /ws

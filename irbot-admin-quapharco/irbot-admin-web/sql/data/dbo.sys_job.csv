@@ -1,0 +1,7 @@
+﻿"job_id","job_name","job_group","invoke_target","cron_expression","misfire_policy","concurrent","status","create_by","create_time","update_by","update_time","remark"
+1,"Health Check","DEFAULT","healthCheckTask.executeTask()","0 0/5 * * * ?","3","1","0","admin",4/29/2022 3:10:06 PM.923,"admin",5/12/2022 3:04:45 PM.720,""
+2,"Tự động lấy dữ liệu Nhập Xuất Kho lúc 12h sáng","DEFAULT","syncNhapXuatTask.executeTask('2')","0 0 9 * * ?","3","1","1","admin",5/6/2022 8:51:31 AM.677,"admin",5/18/2022 9:21:04 AM.477,"mode 1: lấy dữ liệu trong ngày
+mode 2:  lấy thêm dũ liệu của ngày hôm trước"
+3,"Gửi robot làm lệnh","DEFAULT","sendRobotTask.executeTask()","0/30 * * * * ?","3","1","0","admin",5/6/2022 8:52:19 AM.313,"admin",5/12/2022 4:42:14 PM.617,""
+4,"Tự động lấy dữ liệu mỗi 30s","DEFAULT","syncNhapXuatTask.executeTask('1')","0/30 * * * * ?","3","1","0","admin",5/10/2022 1:48:06 PM.343,"admin",5/12/2022 4:56:37 PM.413,"mode 1: lấy dữ liệu trong ngày
+mode 2:  lấy thêm dũ liệu của ngày hôm trước"

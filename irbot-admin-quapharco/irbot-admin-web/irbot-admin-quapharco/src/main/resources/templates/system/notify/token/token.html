@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('List Notify Token')" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>User ID：</label>
+                                <input type="text" name="userId" />
+                            </li>
+                            <li>
+                                <label>User Type：</label>
+                                <input type="text" name="userType" />
+                            </li>
+                            <li>
+                                <label>Login Token：</label>
+                                <input type="text" name="userLoginToken" />
+                            </li>
+                            <li>
+                                <label>Device Token：</label>
+                                <input type="text" name="deviceToken" />
+                            </li>
+                            <li class="select-time">
+                                <label>Expired Time：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="Start Time"
+                                    name="params[beginExpireTime]" />
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="End Time"
+                                    name="params[endExpireTime]" />
+                            </li>
+                            <li>
+                                <label>Expired Flag：</label>
+                                <input type="text" name="expireFlg" />
+                            </li>
+                            <li>
+                                <label>Login IP：</label>
+                                <input type="text" name="loginIp" />
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i>&nbsp;Search</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:notify/token:add">
+                    <i class="fa fa-plus"></i> Add
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+                    shiro:hasPermission="system:notify/token:edit">
+                    <i class="fa fa-edit"></i> Edit
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+                    shiro:hasPermission="system:notify/token:remove">
+                    <i class="fa fa-remove"></i> Delete
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()"
+                    shiro:hasPermission="system:notify/token:export">
+                    <i class="fa fa-download"></i> Export
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:token:edit') }]];
+        var removeFlag = [[${@permission.hasPermi('system:token:remove') }]];
+    </script>
+    <script th:src="@{/app/js/system/notify/token/token.js}"></script>
+
+</body>
+
+</html>

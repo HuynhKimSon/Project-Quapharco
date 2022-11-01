@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+	<th:block th:include="include :: header('Danh sách dữ liệu từ điển')" />
+	<th:block th:include="include :: select2-css" />
+</head>
+
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="data-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								<label>
+									Tên từ điển:
+								</label>
+								<select id="dictType" name="dictType" class="form-control m-b" style="width:auto;">
+									<option value="">Tất cả</option>
+									<option th:each="dict : ${dictList}" th:text="${dict['dictName']}"
+										th:value="${dict['dictType']}" th:field="*{dict.dictType}"></option>
+								</select>
+							</li>
+							<li>
+								Thẻ từ điển: <input type="text" name="dictLabel" />
+							</li>
+							<li>
+								Trạng thái dữ liệu: <select name="status"
+									th:with="type=${@dict.getType('sys_normal_disable')}">
+									<option value="">Tất cả</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+										th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+										class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()"><i
+										class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="add()" shiro:hasPermission="system:dict:add">
+					<i class="fa fa-plus"></i> Thêm
+				</a>
+				<a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+					shiro:hasPermission="system:dict:edit">
+					<i class="fa fa-edit"></i> Sửa
+				</a>
+				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+					shiro:hasPermission="system:dict:remove">
+					<i class="fa fa-remove"></i> Xóa
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:dict:export">
+					<i class="fa fa-download"></i> Xuất excel
+				</a>
+				<a class="btn btn-danger" onclick="closeItem()">
+					<i class="fa fa-reply-all"></i> Tắt
+				</a>
+			</div>
+
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<!-- <th:block th:include="include :: select2-js" /> -->
+	<th:block th:include="include :: common-input" />
+	<script th:inline="javascript">
+		var editFlag = [[${@permission.hasPermi('system:dict:edit') }]];
+		var removeFlag = [[${@permission.hasPermi('system:dict:remove') }]];
+		var datas = [[${@dict.getType('sys_normal_disable') }]];
+	</script>
+	<script th:src="@{/app/js/system/dict/data/data.js?v=20210804}"></script>
+</body>
+
+</html>

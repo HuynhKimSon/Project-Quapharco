@@ -1,0 +1,3 @@
+Application Version: ${app.version}
+Spring Boot Version: ${spring-boot.version}
+QUAPHARCO SYSTEM

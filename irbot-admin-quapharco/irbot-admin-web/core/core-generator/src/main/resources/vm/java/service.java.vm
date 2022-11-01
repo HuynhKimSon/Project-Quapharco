@@ -1,0 +1,75 @@
+package ${packageName}.service;
+
+import java.util.List;
+import ${packageName}.domain.${ClassName};
+#if($table.tree)
+import vn.com.irtech.core.common.domain.Ztree;
+#end
+
+/**
+ * Service interface ${functionName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface I${ClassName}Service 
+{
+
+    /**
+     * Query ${functionName}
+     *
+     * @param ${pkColumn.javaField} ID ${functionName}
+     * @return ${functionName}
+     */
+    public ${ClassName} select${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * Query list ${functionName}
+     *
+     * @param ${className} ${functionName}
+     * Collection @return ${functionName}
+     */
+    public List<${ClassName}> select${ClassName}List(${ClassName} ${className});
+
+    /**
+     * Added ${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return result
+     */
+    public int insert${ClassName}(${ClassName} ${className});
+
+    /**
+     * Update ${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return result
+     */
+    public int update${ClassName}(${ClassName} ${className});
+
+    /**
+     * Xóa hàng loạt ${functionName}
+     *
+     * @param id ID của dữ liệu sẽ bị xóa
+     * @return result
+     */
+    public int delete${ClassName}ByIds(String ids);
+
+    /**
+     * Delete information ${functionName}
+     *
+     * @param ${pkColumn.javaField} ID ${functionName}
+     * @return result
+     */
+    public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+#if($table.tree)
+
+
+    /**
+     * Query the tree list of ${functionName}
+     *
+     * @ return all information ${functionName}
+     */
+    public List<Ztree> select${ClassName}Tree();
+#end
+}

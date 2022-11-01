@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<th:block th:include="include :: header('Menu mới')" />
+</head>
+
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-menu-add">
+			<input id="treeId" name="parentId" type="hidden" th:value="${menu.menuId}" />
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Menu: </label>
+				<div class="col-sm-8">
+					<div class="input-group">
+						<input class="form-control" type="text" onclick="selectMenuTree()" id="treeName" readonly="true"
+							th:value="${menu.menuName}">
+						<span class="input-group-addon"><i class="fa fa-search"></i></span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Loại menu:</label>
+				<div class="col-sm-8">
+					<label class="radio-box"> <input type="radio" name="menuType" value="M" /> Mục lục </label>
+					<label class="radio-box"> <input type="radio" name="menuType" value="C" /> Menu </label>
+					<label class="radio-box"> <input type="radio" name="menuType" value="F" /> Nút </label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Tên menu: </label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="menuName" id="menuName" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Đường dẫn: </label>
+				<div class="col-sm-8">
+					<input id="url" name="url" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Phương thức: </label>
+				<div class="col-sm-8">
+					<select id="target" name="target" class="form-control m-b">
+						<option value="menuItem">Dấu trang</option>
+						<option value="menuBlank">Cửa sổ mới</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">ID ủy quyền:</label>
+				<div class="col-sm-8">
+					<input id="perms" name="perms" class="form-control" type="text">
+					<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> Định danh quyền được xác định
+						trong bộ điều khiển, chẳng hạn như: @RequiresPermissions ("")</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label is-required">Sắp xếp hiển thị:</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="orderNum" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Biểu tượng:</label>
+				<div class="col-sm-8">
+					<input id="icon" name="icon" class="form-control" type="text" placeholder="Chọn biểu tượng">
+					<div class="ms-parent" style="width: 100%;">
+						<div class="icon-drop animated flipInX" style="display: none;max-height:200px;overflow-y:auto">
+							<div data-th-include="system/menu/icon"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Tình trạng menu: </label>
+				<div class="col-sm-3">
+					<div class="radio-box" th:each="dict : ${@dict.getType('sys_show_hide')}">
+						<input type="radio" th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}"
+							th:checked="${dict.default}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>
+				</div>
+				<label class="col-sm-2 control-label is-refresh" title="Có làm mới trang khi mở tab menu hay không">Có
+					làm mới không:<i class="fa fa-question-circle-o"></i></label>
+				<div class="col-sm-3 is-refresh">
+					<div class="radio-box">
+						<input type="radio" id="refresh-no" name="isRefresh" value="1" checked>
+						<label for="refresh-no">Không</label>
+					</div>
+					<div class="radio-box">
+						<input type="radio" id="refresh-yes" name="isRefresh" value="0">
+						<label for="refresh-yes">Có</label>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:src="@{/app/js/system/menu/add.js}"></script>
+
+</body>
+
+</html>

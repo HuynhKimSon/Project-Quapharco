@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('Server monitoring')" />
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>CPU</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <table class="table table-hover no-margins">
+                                <thead>
+                                    <tr>
+                                        <th>Thuộc tính</th>
+                                        <th>giá trị</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Số lượng lõi</td>
+                                        <td th:text="${server.cpu.cpuNum}">0个</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sử dụng người dùng</td>
+                                        <td th:text="${server.cpu.used + '%'}">0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sử dụng hệ thống</td>
+                                        <td th:text="${server.cpu.sys + '%'}">0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tỷ lệ nhàn rỗi hiện tại</td>
+                                        <td th:text="${server.cpu.free + '%'}">0%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-sm-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>RAM</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                <a class="close-link"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <table class="table table-hover no-margins">
+                                <thead>
+                                    <tr>
+                                        <th>Thuộc tính</th>
+                                        <th>RAM</th>
+                                        <th>JVM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tổng bộ nhớ</td>
+                                        <td th:text="${server.mem.total + 'G'}">0GB</td>
+                                        <td th:text="${server.jvm.total + 'M'}">0MB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bộ nhớ đã sử dụng</td>
+                                        <td th:text="${server.mem.used + 'G'}">0GB</td>
+                                        <td th:text="${server.jvm.used + 'M'}">0MB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bộ nhớ còn lại</td>
+                                        <td th:text="${server.mem.free + 'G'}">0GB</td>
+                                        <td th:text="${server.jvm.free + 'M'}">0MB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tỷ lệ sử dụng</td>
+                                        <td th:class="${server.mem.usage gt 80} ? 'text-danger'">[[${server.mem.usage}]]%</td>
+                                        <td th:class="${server.jvm.usage gt 80} ? 'text-danger'">[[${server.jvm.usage}]]%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Thông tin máy chủ</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover margin bottom">
+                                        <tbody>
+                                            <tr>
+                                                <td>biệt hiệu máy chủ</td>
+                                                <td th:text="${server.sys.computerName}">RuoYi</td>
+                                                <td>hệ điều hành</td>
+                                                <td th:text="${server.sys.osName}">Linux</td>
+                                            </tr>
+                                            <tr>
+                                                <td>IP máy chủ</td>
+                                                <td th:text="${server.sys.computerIp}">127.0.0.1</td>
+                                                <td>cấu trúc hệ thống</td>
+                                                <td th:text="${server.sys.osArch}">amd64</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Thông tin máy ảo Java</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover margin bottom">
+                                        <tbody>
+                                            <tr>
+                                                <td>Tên Java</td>
+                                                <td th:text="${server.jvm.name}">Java</td>
+                                                <td>Phiên bản Java</td>
+                                                <td th:text="${server.jvm.version}">1.8.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Thời gian bắt đầu</td>
+                                                <td th:text="${server.jvm.startTime}">2018-12-31 00:00:00</td>
+                                                <td>Thời gian chạy</td>
+                                                <td th:text="${server.jvm.runTime}">0 ngày 0 giờ 0 phút 0 giây</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="1">đường dẫn cài đặt</td>
+                                                <td colspan="3" th:text="${server.jvm.home}"></td>
+                                            </tr>
+                                             <tr>
+                                                <td colspan="1">Đường dẫn dự án</td>
+                                                <td colspan="3" th:text="${server.sys.userDir}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Tình trạng ổ đĩa</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-hover margin bottom">
+                                        <thead>
+                                            <tr>
+                                                <th>Đường dẫn</th>
+                                                <th>File hệ thống</th>
+                                                <th>Loại ổ đĩa</th>
+                                                <th>Tổng dung lượng</th>
+                                                <th>Dung lượng sẵn có</th>
+                                                <th>Dung lượng đã sử dụng</th>
+                                                <th>Phần trăm sử dụng hiện tại</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="sysFile : ${server.sysFiles}">
+                                                <td th:text="${sysFile.dirName}">C:\</td>
+                                                <td th:text="${sysFile.sysTypeName}">NTFS</td>
+                                                <td th:text="${sysFile.typeName}">local</td>
+                                                <td th:text="${sysFile.total}">0GB</td>
+                                                <td th:text="${sysFile.free}">0GB</td>
+                                                <td th:text="${sysFile.used}">0GB</td>
+                                                <td th:class="${sysFile.usage gt 80} ? 'text-danger'">[[${sysFile.usage}]]%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<th:block th:include="include :: footer" />
+<script>
+    $(".modal").appendTo("body"), $("[data-toggle=popover]").popover(), $(".collapse-link").click(function() {
+        var div_ibox = $(this).closest("div.ibox"),
+        e = $(this).find("i"),
+        i = div_ibox.find("div.ibox-content");
+        i.slideToggle(200),
+        e.toggleClass("fa-chevron-up").toggleClass("fa-chevron-down"),
+        div_ibox.toggleClass("").toggleClass("border-bottom"),
+        setTimeout(function() {
+        	div_ibox.resize();
+        }, 50);
+    }), $(".close-link").click(function () {
+		var div_ibox = $(this).closest("div.ibox");
+		div_ibox.remove()
+	});
+</script>
+</html>

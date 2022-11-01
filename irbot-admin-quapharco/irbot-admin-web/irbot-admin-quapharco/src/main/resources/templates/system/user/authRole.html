@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<th:block th:include="include :: header('Chỉ định vai trò')" />
+</head>
+
+<body>
+	<div class="main-content">
+		<form id="form-user-add" class="form-horizontal">
+			<input type="hidden" id="userId" name="userId" th:value="${user.userId}">
+			<h4 class="form-header h4">Thông tin cơ bản</h4>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label is-required">Tên người dùng: </label>
+						<div class="col-sm-8">
+							<input name="userName" class="form-control" type="text" disabled
+								th:value="${user.userName}">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label is-required">Tên đăng nhập: </label>
+						<div class="col-sm-8">
+							<input name="loginName" class="form-control" type="text" disabled
+								th:value="${user.loginName}">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<h4 class="form-header h4">Chỉ định vai trò</h4>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="col-sm-12 select-table table-striped">
+						<table id="bootstrap-table"></table>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-offset-5 col-sm-10">
+			<button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i
+					class="fa fa-check"></i>Xác nhận</button>&nbsp;
+			<button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i
+					class="fa fa-reply-all"></i>Đóng</button>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var prefix = ctx + "system/user/authRole";
+		var roles = [[${ roles }]]
+
+		$(function () {
+			var options = {
+				data: roles,
+				sidePagination: "client",
+				sortName: "roleSort",
+				showSearch: false,
+				showRefresh: false,
+				showToggle: false,
+				showColumns: false,
+				clickToSelect: true,
+				maintainSelected: true,
+				columns: [{
+					checkbox: true,
+					formatter: function (value, row, index) {
+						if ($.common.isEmpty(value)) {
+							return { checked: row.flag };
+						} else {
+							return { checked: value }
+						}
+					}
+				},
+				{
+					field: 'roleId',
+					title: 'STT'
+				},
+				{
+					field: 'roleSort',
+					title: 'Sắp xếp',
+					sortable: true,
+					visible: false
+				},
+				{
+					field: 'roleName',
+					title: 'Tên quyền'
+				},
+				{
+					field: 'roleKey',
+					title: 'Mã quyền',
+					sortable: true
+				},
+				{
+					field: 'createTime',
+					title: 'Ngày tạo',
+					sortable: true
+				}]
+			};
+			$.table.init(options);
+		});
+
+		/* Add role */
+		function submitHandler(index, layero) {
+			var rows = $.table.selectFirstColumns();
+			var data = { "userId": $("#userId").val(), "roleIds": rows.join() };
+			$.operate.saveTab(prefix + "/insertAuthRole", data);
+		}
+	</script>
+</body>
+
+</html>

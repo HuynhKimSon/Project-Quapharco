@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<th:block th:include="include :: header('Quyền đối với dữ liệu')" />
+	<th:block th:include="include :: ztree-css" />
+</head>
+
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-role-edit" th:object="${role}">
+			<input id="roleId" name="roleId" type="hidden" th:field="*{roleId}" />
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Tên vai trò:</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="roleName" id="roleName" th:field="*{roleName}"
+						readonly="true" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Mã vai trò: </label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="roleKey" id="roleKey" th:field="*{roleKey}"
+						readonly="true">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Phạm vi dữ liệu:</label>
+				<div class="col-sm-8">
+					<select id="dataScope" name="dataScope" class="form-control m-b">
+						<option value="1" th:field="*{dataScope}">Tất cả các quyền dữ liệu</option>
+						<option value="2" th:field="*{dataScope}">Quyền đối với dữ liệu tùy chỉnh</option>
+					</select>
+					<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> Trong các trường hợp đặc biệt,
+						hãy đặt thành "quyền dữ liệu tùy chỉnh"</span>
+				</div>
+			</div>
+			<div class="form-group" id="authDataScope"
+				th:style="'display:' + @{(*{dataScope=='2'} ? 'block' : 'none')} + ''">
+				<label class="col-sm-3 control-label">Quyền dữ liệu:</label>
+				<div class="col-sm-8">
+					<label class="check-box">
+						<input type="checkbox" value="1" checked>Mở ra/Đóng lại</label>
+					<label class="check-box">
+						<input type="checkbox" value="2">Chọn tất cả/Bỏ chọn tất cả</label>
+					<label class="check-box">
+						<input type="checkbox" value="3" checked>Liên kết cha-con</label>
+					<div id="deptTrees" class="ztree ztree-border"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: ztree-js" />
+	<script th:src="@{/app/js/system/role/dataScope.js}"></script>
+
+</body>
+
+</html>

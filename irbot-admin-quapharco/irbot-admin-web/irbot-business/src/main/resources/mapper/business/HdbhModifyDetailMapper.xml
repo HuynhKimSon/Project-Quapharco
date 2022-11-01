@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="vn.com.irtech.irbot.business.mapper.HdbhModifyDetailMapper">
+
+	<resultMap type="HdbhDetail" id="HdbhModifyDetailResult">
+		<result property="id" column="id" />
+		<result property="hdbhId" column="hdbh_id" />
+		<result property="fastId" column="fast_id" />
+		<result property="fastDetailId" column="fast_detail_id" />
+		<result property="productId" column="product_id" />
+		<result property="productUnit" column="product_unit" />
+		<result property="productName" column="product_name" />
+		<result property="productTaxId" column="product_tax_id" />
+		<result property="productQuantity" column="product_quantity" />
+		<result property="productPrice" column="product_price" />
+		<result property="productSubtotalAmount"
+			column="product_subtotal_amount" />
+		<result property="productTaxAmount" column="product_tax_amount" />
+		<result property="productDiscount" column="product_discount" />
+		<result property="productTotalAmount"
+			column="product_total_amount" />
+		<result property="productExpiredDate"
+			column="product_expired_date" />
+		<result property="stockOut" column="stock_out" />
+		<result property="stockOutName" column="stock_out_name" />
+		<result property="lotNo" column="lot_no" />
+		<result property="createBy" column="create_by" />
+		<result property="createTime" column="create_time" />
+		<result property="updateBy" column="update_by" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+	<sql id="selectHdbhModifyDetailVo">
+		select id, hdbh_id, fast_id, fast_detail_id, product_id,
+		product_unit,
+		product_name, product_tax_id, product_quantity,
+		product_price,
+		product_subtotal_amount, product_tax_amount,
+		product_discount,
+		product_total_amount, product_expired_date,
+		stock_out, stock_out_name, lot_no,
+		create_by, create_time, update_by, update_time from
+		hdbh_modify_detail
+	</sql>
+
+	<select id="selectHdbhModifyDetailList"
+		parameterType="HdbhDetail" resultMap="HdbhModifyDetailResult">
+		<include refid="selectHdbhModifyDetailVo" />
+		<where>
+			<if test="hdbhId != null "> and hdbh_id = #{hdbhId}</if>
+			<if test="fastId != null  and fastId != ''"> and fast_id = #{fastId}</if>
+			<if test="fastDetailId != null  and fastDetailId != ''"> and fast_detail_id = #{fastDetailId}</if>
+			<if test="productId != null  and productId != ''"> and product_id = #{productId}</if>
+			<if test="productUnit != null  and productUnit != ''"> and product_unit = #{productUnit}</if>
+			<if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')
+			</if>
+			<if test="productTaxId != null  and productTaxId != ''"> and product_tax_id = #{productTaxId}</if>
+			<if test="productQuantity != null  and productQuantity != ''"> and product_quantity = #{productQuantity}</if>
+			<if test="productPrice != null  and productPrice != ''"> and product_price = #{productPrice}</if>
+			<if
+				test="productSubtotalAmount != null  and productSubtotalAmount != ''"> and product_subtotal_amount = #{productSubtotalAmount}</if>
+			<if test="productTaxAmount != null  and productTaxAmount != ''"> and product_tax_amount = #{productTaxAmount}</if>
+			<if test="productDiscount != null  and productDiscount != ''"> and product_discount = #{productDiscount}</if>
+			<if
+				test="productTotalAmount != null  and productTotalAmount != ''"> and product_total_amount = #{productTotalAmount}</if>
+			<if test="productExpiredDate != null"> and product_expired_date = #{productExpiredDate}</if>
+			<if test="stockOut != null  and stockOut != ''"> and stock_out = #{stockOut}</if>
+			<if test="stockOutName != null  and stockOutName != ''"> and stock_out_name = #{stockOutName}</if>
+			<if test="lotNo != null  and lotNo != ''"> and lot_no = #{lotNo}</if>
+		</where>
+	</select>
+
+	<select id="selectHdbhModifyDetailById" parameterType="Long"
+		resultMap="HdbhModifyDetailResult">
+		<include refid="selectHdbhModifyDetailVo" />
+		where id = #{id}
+	</select>
+
+	<insert id="insertHdbhModifyDetail" parameterType="HdbhDetail">
+		insert into hdbh_modify_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="hdbhId != null">hdbh_id,</if>
+			<if test="fastId != null">fast_id,</if>
+			<if test="fastDetailId != null">fast_detail_id,</if>
+			<if test="productId != null">product_id,</if>
+			<if test="productUnit != null">product_unit,</if>
+			<if test="productName != null">product_name,</if>
+			<if test="productTaxId != null">product_tax_id,</if>
+			<if test="productQuantity != null">product_quantity,</if>
+			<if test="productPrice != null">product_price,</if>
+			<if test="productSubtotalAmount != null">product_subtotal_amount,</if>
+			<if test="productTaxAmount != null">product_tax_amount,</if>
+			<if test="productDiscount != null">product_discount,</if>
+			<if test="productTotalAmount != null">product_total_amount,</if>
+			<if test="productExpiredDate != null">product_expired_date,</if>
+			<if test="stockOut != null">stock_out,</if>
+			<if test="stockOutName != null">stock_out_name,</if>
+			<if test="lotNo != null">lot_no,</if>
+			<if test="createBy != null">create_by,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="updateBy != null">update_by,</if>
+			<if test="updateTime != null">update_time,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="hdbhId != null">#{hdbhId},</if>
+			<if test="fastId != null">#{fastId},</if>
+			<if test="fastDetailId != null">#{fastDetailId},</if>
+			<if test="productId != null">#{productId},</if>
+			<if test="productUnit != null">#{productUnit},</if>
+			<if test="productName != null">#{productName},</if>
+			<if test="productTaxId != null">#{productTaxId},</if>
+			<if test="productQuantity != null">#{productQuantity},</if>
+			<if test="productPrice != null">#{productPrice},</if>
+			<if test="productSubtotalAmount != null">#{productSubtotalAmount},</if>
+			<if test="productTaxAmount != null">#{productTaxAmount},</if>
+			<if test="productDiscount != null">#{productDiscount},</if>
+			<if test="productTotalAmount != null">#{productTotalAmount},</if>
+			<if test="productExpiredDate != null">#{productExpiredDate},</if>
+			<if test="stockOut != null">#{stockOut},</if>
+			<if test="stockOutName != null">#{stockOutName},</if>
+			<if test="lotNo != null">#{lotNo},</if>
+			<if test="createBy != null">#{createBy},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="updateBy != null">#{updateBy},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+		</trim>
+	</insert>
+
+	<update id="updateHdbhModifyDetail" parameterType="HdbhDetail">
+		update hdbh_modify_detail
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="hdbhId != null">hdbh_id = #{hdbhId},</if>
+			<if test="fastId != null">fast_id = #{fastId},</if>
+			<if test="fastDetailId != null">fast_detail_id = #{fastDetailId},</if>
+			<if test="productId != null">product_id = #{productId},</if>
+			<if test="productUnit != null">product_unit = #{productUnit},</if>
+			<if test="productName != null">product_name = #{productName},</if>
+			<if test="productTaxId != null">product_tax_id = #{productTaxId},</if>
+			<if test="productQuantity != null">product_quantity = #{productQuantity},</if>
+			<if test="productPrice != null">product_price = #{productPrice},</if>
+			<if test="productSubtotalAmount != null">product_subtotal_amount = #{productSubtotalAmount},</if>
+			<if test="productTaxAmount != null">product_tax_amount = #{productTaxAmount},</if>
+			<if test="productDiscount != null">product_discount = #{productDiscount},</if>
+			<if test="productTotalAmount != null">product_total_amount = #{productTotalAmount},</if>
+			<if test="productExpiredDate != null">product_expired_date = #{productExpiredDate},</if>
+			<if test="stockOut != null">stock_out = #{stockOut},</if>
+			<if test="stockOutName != null">stock_out_name = #{stockOutName},</if>
+			<if test="lotNo != null">lot_no = #{lotNo},</if>
+			<if test="createBy != null">create_by = #{createBy},</if>
+			<if test="createTime != null">create_time = #{createTime},</if>
+			<if test="updateBy != null">update_by = #{updateBy},</if>
+			<if test="updateTime != null">update_time = #{updateTime},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteHdbhModifyDetailById" parameterType="Long">
+		delete
+		from
+		hdbh_modify_detail where id = #{id}
+	</delete>
+
+	<delete id="deleteHdbhModifyDetailByIds" parameterType="String">
+		delete from hdbh_modify_detail where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

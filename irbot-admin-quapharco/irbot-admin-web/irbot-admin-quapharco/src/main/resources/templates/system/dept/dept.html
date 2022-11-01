@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+	<th:block th:include="include :: header('Danh sách bộ phận')" />
+</head>
+
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="dept-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								Tên bộ phận: <input type="text" name="deptName" />
+							</li>
+							<li>
+								Tình trạng bộ phận: <select name="status"
+									th:with="type=${@dict.getType('sys_normal_disable')}">
+									<option value="">Tất cả</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+										th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.treeTable.search()"><i
+										class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+										class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add(100)" shiro:hasPermission="system:dept:add">
+					<i class="fa fa-plus"></i> Thêm
+				</a>
+				<a class="btn btn-primary" onclick="$.operate.edit()" shiro:hasPermission="system:dept:edit">
+					<i class="fa fa-edit"></i> Sửa
+				</a>
+				<a class="btn btn-info" id="expandAllBtn">
+					<i class="fa fa-exchange"></i> Mở ra/Đóng lại
+				</a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-tree-table"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: common-input" />
+	<script th:inline="javascript">
+		var addFlag = [[${@permission.hasPermi('system:dept:add') }]];
+		var editFlag = [[${@permission.hasPermi('system:dept:edit') }]];
+		var removeFlag = [[${@permission.hasPermi('system:dept:remove') }]];
+		var datas = [[${@dict.getType('sys_normal_disable') }]];
+	</script>
+	<script th:src="@{/app/js/system/dept/dept.js?v=20210804}"></script>
+
+</body>
+
+</html>

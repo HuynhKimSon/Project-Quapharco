@@ -1,0 +1,91 @@
+package ${packageName}.mapper;
+
+import java.util.List;
+import ${packageName}.domain.${ClassName};
+#if($table.sub)
+import ${packageName}.domain.${subClassName};
+#end
+
+/**
+ * Mapping interface ${functionName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${ClassName}Mapper 
+{
+    /**
+     * Query ${functionName}
+     *
+     * @param ${pkColumn.javaField} ID ${functionName}
+     * @return ${functionName}
+     */
+    public ${ClassName} select${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * Query list ${functionName}
+     *
+     * @param ${className} ${functionName}
+     * Collection @return ${functionName}
+     */
+    public List<${ClassName}> select${ClassName}List(${ClassName} ${className});
+
+    /**
+     * Added ${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return result
+     */
+    public int insert${ClassName}(${ClassName} ${className});
+
+    /**
+     * Update ${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return result
+     */
+    public int update${ClassName}(${ClassName} ${className});
+
+    /**
+     * Delete ${functionName}
+     *
+     * @param ${pkColumn.javaField} ID ${functionName}
+     * @return result
+     */
+    public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * Bulk delete ${functionName}
+     *
+     * @param ${pkColumn.javaField} The ID of the data will be deleted
+     * @return result
+     */
+    public int delete${ClassName}ByIds(String[] ${pkColumn.javaField}s);
+#if($table.sub)
+
+    /**
+     * Bulk delete ${subTable.functionName}
+     *
+     * @param customerIds The ID of the data will be deleted
+     * @return result
+     */
+    public int delete${subClassName}By${subTableFkClassName}s(String[] ${pkColumn.javaField}s);
+    
+    /**
+     * Add series ${subTable.functionName}
+     *
+     * @param ${subclassName} list ${subTable.functionName}
+     * @return result
+     */
+    public int batch${subClassName}(List<${subClassName}> ${subclassName}List);
+    
+
+    /**
+     * Delete information ${subTable.functionName} via ID ${functionName}
+     *
+     * @param ${pkColumn.javaField} ID ${functionName}
+     * @return result
+     */
+    public int delete${subClassName}By${subTableFkClassName}(${pkColumn.javaType} ${pkColumn.javaField});
+#end
+}

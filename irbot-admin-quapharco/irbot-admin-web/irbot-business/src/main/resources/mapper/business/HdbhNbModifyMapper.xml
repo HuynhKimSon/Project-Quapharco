@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="vn.com.irtech.irbot.business.mapper.HdbhNbModifyMapper">
+
+	<resultMap type="HdbhNb" id="HdbhNbModifyResult">
+		<result property="id" column="id" />
+		<result property="mode" column="mode" />
+		<result property="fastId" column="fast_id" />
+		<result property="fastInvoiceNo" column="fast_invoice_no" />
+		<result property="eInvoiceNo" column="e_invoice_no" />
+		<result property="unitCode" column="unit_code" />
+		<result property="customerId" column="customer_id" />
+		<result property="buyerName" column="buyer_name" />
+		<result property="customerName" column="customer_name" />
+		<result property="customerTaxCode" column="customer_tax_code" />
+		<result property="address" column="address" />
+		<result property="invoiceDate" column="invoice_date" />
+		<result property="invoiceModifyDate" column="invoice_modify_date" />
+		<result property="description" column="description" />
+		<result property="totalQuantity" column="total_quantity" />
+		<result property="totalTaxAmount" column="total_tax_amount" />
+		<result property="subtotalAmount" column="subtotal_amount" />
+		<result property="totalAmount" column="total_amount" />
+		<result property="transporter" column="transporter" />
+		<result property="vehicle" column="vehicle" />
+		<result property="stockIn" column="stock_in" />
+		<result property="stockInName" column="stock_in_name" />
+		<result property="orderNo" column="order_no" />
+		<result property="orderDate" column="order_date" />
+		<result property="processId" column="process_id" />
+		<result property="status" column="status" />
+		<result property="createBy" column="create_by" />
+		<result property="createTime" column="create_time" />
+		<result property="updateBy" column="update_by" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+	<sql id="selectHdbhNbModifyVo">
+		select id, mode, fast_id, fast_invoice_no, e_invoice_no, unit_code,
+		customer_id, buyer_name, customer_name, customer_tax_code, address,
+		invoice_date, invoice_modify_date, description, total_quantity, total_tax_amount,
+		subtotal_amount, total_amount, transporter, vehicle, stock_in, stock_in_name,
+		order_no, order_date, process_id, status, create_by, create_time,
+		update_by, update_time from hdbh_nb_modify
+	</sql>
+
+	<select id="selectHdbhNbModifyList" parameterType="HdbhNb"
+		resultMap="HdbhNbModifyResult">
+		<include refid="selectHdbhNbModifyVo" />
+		<where>
+			<if test="mode != null "> and mode = #{mode}</if>
+			<if test="fastId != null  and fastId != ''"> and fast_id = #{fastId}</if>
+			<if test="fastInvoiceNo != null  and fastInvoiceNo != ''"> and fast_invoice_no = #{fastInvoiceNo}</if>
+			<if test="eInvoiceNo != null  and eInvoiceNo != ''"> and e_invoice_no = #{eInvoiceNo}</if>
+			<if test="unitCode != null  and unitCode != ''"> and unit_code = #{unitCode}</if>
+			<if test="customerId != null  and customerId != ''"> and customer_id = #{customerId}</if>
+			<if test="buyerName != null  and buyerName != ''"> and buyer_name like concat('%', #{buyerName}, '%')</if>
+			<if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+			<if test="customerTaxCode != null  and customerTaxCode != ''"> and customer_tax_code = #{customerTaxCode}</if>
+			<if test="address != null  and address != ''"> and address = #{address}</if>
+			<if test="invoiceDate != null  and invoiceDate != ''"> and invoice_date = #{invoiceDate}</if>
+			<if test="invoiceModifyDate != null  and invoiceModifyDate != ''"> and invoice_modify_date = #{invoiceModifyDate}</if>
+			<if test="description != null  and description != ''"> and description = #{description}</if>
+			<if test="totalQuantity != null  and totalQuantity != ''"> and total_quantity = #{totalQuantity}</if>
+			<if test="totalTaxAmount != null  and totalTaxAmount != ''"> and total_tax_amount = #{totalTaxAmount}</if>
+			<if test="subtotalAmount != null  and subtotalAmount != ''"> and subtotal_amount = #{subtotalAmount}</if>
+			<if test="totalAmount != null  and totalAmount != ''"> and total_amount = #{totalAmount}</if>
+			<if test="transporter != null  and transporter != ''"> and transporter = #{transporter}</if>
+			<if test="vehicle != null  and vehicle != ''"> and vehicle = #{vehicle}</if>
+            <if test="stockIn != null  and stockIn != ''"> and stock_in = #{stockIn}</if>
+            <if test="stockInName != null  and stockInName != ''"> and stock_in_name = #{stockInName}</if>
+            <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
+            <if test="orderDate != null  and orderDate != ''"> and order_date = #{orderDate}</if>
+			<if test="processId != null "> and process_id = #{processId}</if>
+			<if test="status != null "> and status = #{status}</if>
+			<if test="params.beginTime != null and params.beginTime != ''">
+				AND convert(varchar, create_time, 23) &gt;=
+				#{params.beginTime}
+			</if>
+			<if test="params.endTime != null and params.endTime != ''">
+				AND convert(varchar, create_time, 23) &lt;=
+				#{params.endTime}
+			</if>
+			<if
+				test="params.fastInvoiceNo != null and params.fastInvoiceNo != ''">
+				AND convert(varchar, fast_invoice_no, 23) like
+				concat(TRIM(#{params.fastInvoiceNo}), '%')
+			</if>
+		</where>
+	</select>
+
+	<select id="selectHdbhNbModifyById" parameterType="Long"
+		resultMap="HdbhNbModifyResult">
+		<include refid="selectHdbhNbModifyVo" />
+		where id = #{id}
+	</select>
+
+	<insert id="insertHdbhNbModify" parameterType="HdbhNb"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into hdbh_nb_modify
+		   <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="mode != null">mode,</if>
+            <if test="fastId != null">fast_id,</if>
+            <if test="fastInvoiceNo != null">fast_invoice_no,</if>
+            <if test="eInvoiceNo != null">e_invoice_no,</if>
+            <if test="unitCode != null">unit_code,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="buyerName != null">buyer_name,</if>
+            <if test="customerName != null">customer_name,</if>
+            <if test="customerTaxCode != null">customer_tax_code,</if>
+            <if test="address != null">address,</if>
+            <if test="invoiceDate != null">invoice_date,</if>
+            <if test="invoiceModifyDate != null">invoice_modify_date,</if>
+            <if test="description != null">description,</if>
+            <if test="totalQuantity != null">total_quantity,</if>
+            <if test="totalTaxAmount != null">total_tax_amount,</if>
+            <if test="subtotalAmount != null">subtotal_amount,</if>
+            <if test="totalAmount != null">total_amount,</if>
+            <if test="transporter != null">transporter,</if>
+            <if test="vehicle != null">vehicle,</if>
+            <if test="stockIn != null">stock_in,</if>
+            <if test="stockInName != null">stock_in_name,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="orderDate != null">order_date,</if>
+            <if test="processId != null">process_id,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="mode != null">#{mode},</if>
+            <if test="fastId != null">#{fastId},</if>
+            <if test="fastInvoiceNo != null">#{fastInvoiceNo},</if>
+            <if test="eInvoiceNo != null">#{eInvoiceNo},</if>
+            <if test="unitCode != null">#{unitCode},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="buyerName != null">#{buyerName},</if>
+            <if test="customerName != null">#{customerName},</if>
+            <if test="customerTaxCode != null">#{customerTaxCode},</if>
+            <if test="address != null">#{address},</if>
+            <if test="invoiceDate != null">#{invoiceDate},</if>
+            <if test="invoiceModifyDate != null">#{invoiceModifyDate},</if>
+            <if test="description != null">#{description},</if>
+            <if test="totalQuantity != null">#{totalQuantity},</if>
+            <if test="totalTaxAmount != null">#{totalTaxAmount},</if>
+            <if test="subtotalAmount != null">#{subtotalAmount},</if>
+            <if test="totalAmount != null">#{totalAmount},</if>
+            <if test="transporter != null">#{transporter},</if>
+            <if test="vehicle != null">#{vehicle},</if>
+            <if test="stockIn != null">#{stockIn},</if>
+            <if test="stockInName != null">#{stockInName},</if>
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="orderDate != null">#{orderDate},</if>
+            <if test="processId != null">#{processId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+	</insert>
+
+	<update id="updateHdbhNbModify" parameterType="HdbhNb">
+		update hdbh_nb_modify
+		<trim prefix="SET" suffixOverrides=",">
+			 <if test="mode != null">mode = #{mode},</if>
+            <if test="fastId != null">fast_id = #{fastId},</if>
+            <if test="fastInvoiceNo != null">fast_invoice_no = #{fastInvoiceNo},</if>
+            <if test="eInvoiceNo != null">e_invoice_no = #{eInvoiceNo},</if>
+            <if test="unitCode != null">unit_code = #{unitCode},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="buyerName != null">buyer_name = #{buyerName},</if>
+            <if test="customerName != null">customer_name = #{customerName},</if>
+            <if test="customerTaxCode != null">customer_tax_code = #{customerTaxCode},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="invoiceDate != null">invoice_date = #{invoiceDate},</if>
+            <if test="invoiceModifyDate != null">invoice_modify_date = #{invoiceModifyDate},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="totalQuantity != null">total_quantity = #{totalQuantity},</if>
+            <if test="totalTaxAmount != null">total_tax_amount = #{totalTaxAmount},</if>
+            <if test="subtotalAmount != null">subtotal_amount = #{subtotalAmount},</if>
+            <if test="totalAmount != null">total_amount = #{totalAmount},</if>
+            <if test="transporter != null">transporter = #{transporter},</if>
+            <if test="vehicle != null">vehicle = #{vehicle},</if>
+            <if test="stockIn != null">stock_in = #{stockIn},</if>
+            <if test="stockInName != null">stock_in_name = #{stockInName},</if>
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="orderDate != null">order_date = #{orderDate},</if>
+            <if test="processId != null">process_id = #{processId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	 <delete id="deleteHdbhNbModifyById" parameterType="Long">
+        delete from hdbh_nb_modify where id = #{id}
+    </delete>
+
+	<delete id="deleteHdbhNbModifyByIds" parameterType="String">
+		delete from hdbh_nb_modify where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

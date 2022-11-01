@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+	<th:block th:include="include :: header('Danh sách menu')" />
+</head>
+
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="menu-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								Tên menu: <input type="text" name="menuName" />
+							</li>
+							<li>
+								Tình trạng: <select name="visible" th:with="type=${@dict.getType('sys_show_hide')}">
+									<option value="">Tất cả</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+										th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.treeTable.search()"><i
+										class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+										class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add(0)" shiro:hasPermission="system:menu:add">
+					<i class="fa fa-plus"></i> Thêm
+				</a>
+				<a class="btn btn-primary" onclick="$.operate.edit()" shiro:hasPermission="system:menu:edit">
+					<i class="fa fa-edit"></i> Sửa
+				</a>
+				<a class="btn btn-info" id="expandAllBtn">
+					<i class="fa fa-exchange"></i> Mở ra/Đóng lại
+				</a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-tree-table"></table>
+			</div>
+		</div>
+	</div>
+
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: common-input" />
+	<script th:inline="javascript">
+		var addFlag = [[${@permission.hasPermi('system:menu:add') }]];
+		var editFlag = [[${@permission.hasPermi('system:menu:edit') }]];
+		var removeFlag = [[${@permission.hasPermi('system:menu:remove') }]];
+		var datas = [[${@dict.getType('sys_show_hide') }]];
+	</script>
+	<script th:src="@{/app/js/system/menu/menu.js?v=20210804}"></script>
+
+</body>
+
+</html>

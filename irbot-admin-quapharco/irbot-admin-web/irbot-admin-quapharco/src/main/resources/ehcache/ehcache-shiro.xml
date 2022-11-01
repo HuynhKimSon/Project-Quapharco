@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="digiup" updateCheck="false">
+
+    <diskStore path="java.io.tmpdir"/>
+    
+    <!-- maxEntriesLocalHeap: Maximum number of cache objects in heap memory, 0 is not limited -->
+    <!-- maxElementsInMemory： The maximum number of elements cached in memory.-->
+    <!-- eternal: whether elements are valid forever. If true, timeouts will be ignored and elements will never expire. -->
+    <!-- timeToIdleSeconds: The number of idle seconds before expiration. This property is only valid when eternal is false. 0 is unlimited -->
+    <!-- timeToLiveSeconds: Survival seconds before expiration. The interval from creation time to expiration time is the survival time. This property is valid only when eternal is false. 0 is unlimited -->
+    <!-- overflowToDisk： If the data in the memory exceeds the memory limit, whether to cache it to disk -->
+    <!-- statistics： Whether to collect statistics. This option should be turned on if you need to monitor cache usage. The default is off (statistics will affect performance). Set statistics = "true" to enable statistics-->
+    
+    <!-- Default Cache -->
+    <defaultCache
+            maxEntriesLocalHeap="1000"
+            eternal="false"
+            timeToIdleSeconds="3600"
+            timeToLiveSeconds="3600"
+            overflowToDisk="false">
+    </defaultCache>
+
+    <!-- Login record cache locked for 10 minutes -->
+    <cache name="loginRecordCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="false">
+    </cache>
+
+    <!-- System active user cache -->
+    <cache name="sys-userCache"
+           maxEntriesLocalHeap="10000"
+           overflowToDisk="false"
+           eternal="false"
+           diskPersistent="false"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           statistics="false">
+    </cache>
+    
+    <!-- System user authorization cache does not need to expire -->
+    <cache name="sys-authCache"
+           maxEntriesLocalHeap="10000"
+           overflowToDisk="false"
+           eternal="false"
+           diskPersistent="false"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           memoryStoreEvictionPolicy="LRU"
+           statistics="false"/>
+    
+    <!-- System cache -->
+    <cache name="sys-cache"
+           maxEntriesLocalHeap="1000"
+           eternal="true"
+           overflowToDisk="true"
+           statistics="false">
+    </cache>
+    
+    <!-- System parameter cache -->
+    <cache name="sys-config"
+           maxEntriesLocalHeap="1000"
+           eternal="true"
+           overflowToDisk="true"
+           statistics="false">
+    </cache>
+    
+    <!-- System dictionary cache -->
+    <cache name="sys-dict"
+           maxEntriesLocalHeap="1000"
+           eternal="true"
+           overflowToDisk="true"
+           statistics="false">
+    </cache>
+    
+    <!-- System session cache -->
+    <cache name="shiro-activeSessionCache"
+           maxElementsInMemory="10000"
+           overflowToDisk="true"
+           eternal="true"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           diskPersistent="true"
+           diskExpiryThreadIntervalSeconds="600">
+    </cache>
+    
+</ehcache>
+    

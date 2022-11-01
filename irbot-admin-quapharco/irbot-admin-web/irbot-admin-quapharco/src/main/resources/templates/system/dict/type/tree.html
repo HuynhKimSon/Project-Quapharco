@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<th:block th:include="include :: header(Cây loại từ điển')" />
+	<th:block th:include="include :: ztree-css" />
+</head>
+<style>
+	body {
+		height: auto;
+		font-family: "Microsoft YaHei";
+	}
+
+	button {
+		font-family: "SimSun", "Helvetica Neue", Helvetica, Arial;
+	}
+</style>
+
+<body class="hold-transition box box-main">
+	<input id="columnId" type="hidden" th:value="${columnId}" />
+	<input id="treeId" type="hidden" th:value="${dict?.dictId}" />
+	<input id="dictType" type="hidden" th:value="${dict?.dictType}" />
+	<div class="wrapper">
+		<div class="treeShowHideButton" onclick="$.tree.toggleSearch();">
+			<label id="btnShow" title="Hiển thị tìm kiếm" style="display:none;">︾</label>
+			<label id="btnHide" title="Ẩn tìm kiếm">︽</label>
+		</div>
+		<div class="treeSearchInput" id="search">
+			<label for="keyword">Từ khóa: </label><input type="text" class="empty" id="keyword" maxlength="50">
+			<button class="btn" id="btn" onclick="$.tree.searchNode()"> Tìm kiếm </button>
+		</div>
+		<div id="tree" class="ztree treeselect"></div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: ztree-js" />
+	<script th:src="@{/app/js/system/dict/type/tree.js}"></script>
+
+</body>
+
+</html>

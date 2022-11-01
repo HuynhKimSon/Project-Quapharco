@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vn.com.irtech.irbot.business.mapper.RobotServiceMapper">
+    
+    <resultMap type="RobotService" id="RobotServiceResult">
+		<result property="robotId"     column="robot_id"      />
+		<result property="serviceId"     column="service_id"      />
+	</resultMap>
+
+	<delete id="deleteRobotServiceByRobotId" parameterType="Long">
+		delete from robot_service where robot_id=#{robotId}
+	</delete>
+	
+	<select id="selectCountRobotServiceByRobotId" resultType="Integer">
+	    select count(1) from robot_service where service_id=#{serviceId}  
+	</select>
+	
+	<delete id="deleteRobotService" parameterType="String">
+ 		delete from robot_service where robot_id in
+ 		<foreach collection="array" item="robotId" open="(" separator="," close=")">
+ 			#{robotId}
+        </foreach> 
+ 	</delete>
+	
+	<insert id="batchRobotService">
+		insert into robot_service(robot_id, service_id) values
+		<foreach item="item" index="index" collection="list" separator=",">
+			(#{item.robotId},#{item.serviceId})
+		</foreach>
+	</insert>
+	
+	 <resultMap type="Service" id="ServiceResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+    
+	<select id="selectServicesByRobotId" parameterType="Long" resultMap="ServiceResult">
+		select 
+			s.*
+		from robot_service rs inner join service s
+			on rs.service_id = s.id
+		where 
+			rs.robot_id = #{robotId}
+	</select>
+</mapper>

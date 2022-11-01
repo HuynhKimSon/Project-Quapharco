@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+	<th:block th:include="include :: header('Danh sách người dùng trực tuyến')" />
+</head>
+
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="online-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								Tên đăng nhập: <input type="text" name="loginName" />
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+										class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+										class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-danger multiple disabled" onclick="javascript:batchForceLogout()"
+					shiro:hasPermission="monitor:online:batchForceLogout">
+					<i class="fa fa-sign-out"></i> Đăng xuất
+				</a>
+			</div>
+
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: bootstrap-table-export-js" />
+	<th:block th:include="include :: common-input" />
+	<script th:inline="javascript">
+		var forceFlag = [[${@permission.hasPermi('monitor:online:forceLogout') }]];
+		var prefix = ctx + "monitor/online";
+		var screenHeight = $(document).height(); // Height of screen
+
+		$(function () {
+			var options = {
+				uniqueId: "sessionId",
+				url: prefix + "/list",
+				exportUrl: prefix + "/export",
+				sortName: "lastAccessTime",
+				sortOrder: "desc",
+				showExport: true,
+				escape: true,
+				height: screenHeight - SEARCH_HEIGHT,
+				columns: [{
+					checkbox: true
+				},
+				{
+					title: "STT",
+					sortable: true,
+					formatter: function (value, row, index) {
+						return $.table.serialNumber(index);
+					}
+				},
+				{
+					field: 'sessionId',
+					title: 'SessionId',
+					sortable: true,
+					formatter: function (value, row, index) {
+						return $.table.tooltip(value);
+					}
+				},
+				{
+					field: 'loginName',
+					title: 'Tên đăng nhập',
+					sortable: true
+				},
+				{
+					field: 'deptName',
+					title: 'Tên bộ phận'
+				},
+				{
+					field: 'ipaddr',
+					title: 'IP',
+					sortable: true,
+				},
+				{
+					field: 'loginLocation',
+					title: 'Vị trí',
+					sortable: true,
+				},
+				{
+					field: 'browser',
+					title: 'Trình duyệt',
+					sortable: true,
+				},
+				{
+					field: 'os',
+					title: 'Hệ điều hành',
+					sortable: true,
+				},
+				{
+					field: 'status',
+					title: 'Trạng thái',
+					align: 'center',
+					sortable: true,
+					formatter: function (value, row, index) {
+						if (value == 'on_line') {
+							return '<span class="badge badge-primary">在线</span>';
+						} else if (value == 'off_line') {
+							return '<span class="badge badge-danger">离线</span>';
+						}
+					}
+				},
+				{
+					field: 'startTimestamp',
+					title: 'Thời gian đăng nhập',
+					sortable: true
+				},
+				{
+					field: 'lastAccessTime',
+					title: 'Lần cuối truy cập',
+					sortable: true
+				},
+				{
+					title: 'Hành động',
+					align: 'center',
+					formatter: function (value, row, index) {
+						var msg = '<a class="btn btn-danger btn-xs ' + forceFlag + '" href="javascript:void(0)" onclick="forceLogout(\'' + row.sessionId + '\')"><i class="fa fa-sign-out"></i>Thoát</a> ';
+						return msg;
+					}
+				}]
+			};
+			$.table.init(options);
+		});
+
+		// 单条强退
+		function forceLogout(sessionId) {
+			$.modal.confirm("Bạn có chắc chắn muốn buộc người dùng đã chọn chuyển sang chế độ ngoại tuyến không?", function () {
+				var data = { "ids": sessionId };
+				$.operate.post(prefix + "/batchForceLogout", data);
+			})
+		}
+
+		// 批量强退
+		function batchForceLogout() {
+			var rows = $.table.selectColumns("sessionId");
+			if (rows.length == 0) {
+				$.modal.alertWarning("Vui lòng chọn người dùng bị buộc ra ngoài");
+				return;
+			}
+			$.modal.confirm("Xác nhận rằng bạn muốn khôi phục lại những gì đã chọn" + rows.length + "dữ liệu?", function () {
+				var url = prefix + "/batchForceLogout";
+				var data = { "ids": rows.join() };
+				$.operate.post(url, data);
+			});
+		}
+	</script>
+</body>
+
+</html>

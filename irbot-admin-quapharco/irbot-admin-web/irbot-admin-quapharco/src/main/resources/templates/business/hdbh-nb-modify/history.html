@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="include :: header('Lịch sử làm lệnh')" />
+    <th:block th:include="include :: jsonview-css" />
+</head>
+
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-misa-detail" th:object="${process}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Ngày bắt đầu：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input name="startDate"
+                                    th:value="${#dates.format(process.startDate, 'yyyy-MM-dd HH:mm:ss')}"
+                                    class="form-control" placeholder="yyyy-MM-dd" type="text" disabled>
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Ngày kết thúc：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input name="endDate"
+                                    th:value="${#dates.format(process.endDate, 'yyyy-MM-dd HH:mm:ss')}"
+                                    class="form-control" placeholder="yyyy-MM-dd" type="text" disabled>
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Trạng thái: </label>
+                        <div class="col-sm-8" th:switch="${process.status}">
+                            <input th:case="0" name="status" class="form-control" value="Chưa làm" type="text" disabled>
+                            <input th:case="1" name="status" class="form-control" value="Chờ thực hiện" type="text" disabled>
+                            <input th:case="2" name="status" class="form-control" value="Đã gửi" type="text" disabled>
+                            <input th:case="3" name="status" class="form-control" value="Đang làm" type="text" disabled>
+                            <input th:case="4" name="status" class="form-control" value="Thất bại" type="text" disabled>
+                            <input th:case="5" name="status" class="form-control" value="Thành công" type="text"
+                                disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Khóa đồng bộ：</label>
+                        <div class="col-sm-8">
+                            <input name="syncKey" th:field="*{syncKey}" class="form-control" type="text" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Robot UUID：</label>
+                        <div class="col-sm-8">
+                            <input name="robotUuid" th:field="*{robotUuid}" class="form-control" type="text" disabled>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Lỗi：</label>
+                        <div class="col-sm-10">
+                            <textarea name="error" th:field="*{error}" class="form-control" type="text" disabled></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Data request：</label>
+                        <div class="col-sm-10">
+                            <div class="form-control-static">
+                                <pre id="jsonDataRequest"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Data response：</label>
+                        <div class="col-sm-10">
+                            <div class="form-control-static">
+                                <pre id="jsonDataResponse"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: jsonview-js" />
+
+    <script type="text/javascript" th:inline="javascript">
+        var process = [[${ process }]];
+        $(function () {
+            var jsonDataRequest = [[${ process.dataRequest }]];
+            if ($.common.isNotEmpty(jsonDataRequest) && jsonDataRequest.length < 4000 && isJson(jsonDataRequest)) {
+                $("#jsonDataRequest").JSONView(jsonDataRequest);
+            } else {
+                $("#jsonDataRequest").text(jsonDataRequest);
+            }
+
+            var jsonDataResponse = [[${ process.dataResponse }]];
+            if ($.common.isNotEmpty(jsonDataResponse) && jsonDataResponse.length < 4000 && isJson(jsonDataResponse)) {
+                $("#jsonDataResponse").JSONView(jsonDataResponse);
+            } else {
+                $("#jsonDataResponse").text(jsonDataResponse);
+            }
+        });
+
+        function isJson(str) {
+            try {
+                JSON.parse(str);
+            } catch (e) {
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+</body>
+
+</html>

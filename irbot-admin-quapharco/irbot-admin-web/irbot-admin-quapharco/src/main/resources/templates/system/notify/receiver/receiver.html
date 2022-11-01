@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <th:block th:include="include :: header('List Notification')" />
+</head>
+
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>User ID：</label>
+                                <input type="text" name="userId" />
+                            </li>
+                            <li>
+                                <label>User Type：</label>
+                                <select name="userType">
+                                    <option value="">All</option>
+                                    <option value="-1">Please select dictionary attribute for code generation</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Notify ID：</label>
+                                <input type="text" name="notificationId" />
+                            </li>
+                            <li>
+                                <label>Notify Type：</label>
+                                <select name="notificationType">
+                                    <option value="">All</option>
+                                    <option value="-1">Please select dictionary attribute for code generation</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Seen Flag：</label>
+                                <input type="text" name="seenFlg" />
+                            </li>
+                            <li class="select-time">
+                                <label>Seen Time：</label>
+                                <input type="text" class="time-input" id="startTime" placeholder="Start Time"
+                                    name="params[beginSeenTime]" />
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="End Time"
+                                    name="params[endSeenTime]" />
+                            </li>
+                            <li>
+                                <label>Sent Flag：</label>
+                                <input type="text" name="sentFlg" />
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                        class="fa fa-search"></i>&nbsp;Search</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                        class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:notify/receiver:add">
+                    <i class="fa fa-plus"></i> Add
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
+                    shiro:hasPermission="system:notify/receiver:edit">
+                    <i class="fa fa-edit"></i> Edit
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+                    shiro:hasPermission="system:notify/receiver:remove">
+                    <i class="fa fa-remove"></i> Delete
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()"
+                    shiro:hasPermission="system:notify/receiver:export">
+                    <i class="fa fa-download"></i> Export
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:notify:edit') }]];
+        var removeFlag = [[${@permission.hasPermi('system:notify:remove') }]];
+    </script>
+    <script th:src="@{/app/js/system/notify/receiver/receiver.js}"></script>
+</body>
+
+</html>

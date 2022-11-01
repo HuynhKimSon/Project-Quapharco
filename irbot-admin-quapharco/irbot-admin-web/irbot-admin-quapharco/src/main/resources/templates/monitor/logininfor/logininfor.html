@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+	<th:block th:include="include :: header('Danh sách nhật ký đăng nhập')" />
+</head>
+
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="logininfor-form">
+					<div class="select-list">
+						<ul>
+							<li>
+								<label>Địa chỉ đăng nhập：</label><input type="text" name="ipaddr" />
+							</li>
+							<li>
+								<label>Tên đăng nhập：</label><input type="text" name="loginName" />
+							</li>
+							<li>
+								<label>Trạng thái đăng nhập：</label><select name="status"
+									th:with="type=${@dict.getType('sys_common_status')}">
+									<option value="">Tất cả</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+							<li class="select-time">
+								<label>Đăng nhập：</label>
+								<input type="text" class="time-input" id="startTime" placeholder="Từ ngày" name="params[beginTime]"
+									autocomplete="off" />
+								<span>-</span>
+								<input type="text" class="time-input" id="endTime" placeholder="Đến ngày" name="params[endTime]"
+									autocomplete="off" />
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+										class="fa fa-search"></i>&nbsp;Tìm kiếm</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+										class="fa fa-refresh"></i>&nbsp;Làm mới</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+					shiro:hasPermission="monitor:logininfor:remove">
+					<i class="fa fa-remove"></i> Xóa
+				</a>
+				<a class="btn btn-danger" onclick="$.operate.clean()" shiro:hasPermission="monitor:logininfor:remove">
+					<i class="fa fa-trash"></i> Trống
+				</a>
+				<a class="btn btn-primary single disabled" onclick="unlock()" shiro:hasPermission="monitor:logininfor:unlock">
+					<i class="fa fa-unlock"></i> Mở khóa
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="monitor:logininfor:export">
+					<i class="fa fa-download"></i> Xuất excel
+				</a>
+			</div>
+
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table"></table>
+			</div>
+		</div>
+	</div>
+
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: common-input" />
+	<script th:inline="javascript">
+		var datas = [[${@dict.getType('sys_common_status') }]];
+		var prefix = ctx + "monitor/logininfor";
+		var screenHeight = $(document).height(); // Height of screen
+
+		$(function () {
+			var options = {
+				url: prefix + "/list",
+				cleanUrl: prefix + "/clean",
+				removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+				sortName: "loginTime",
+				sortOrder: "desc",
+				modalName: "Nhật ký đăng nhập",
+				// escape: true,
+				// showPageGo: true,
+				// rememberSelected: true,
+				height: screenHeight - SEARCH_HEIGHT,
+				columns: [{
+					field: 'state',
+					checkbox: true
+				},
+				{
+					field: 'infoId',
+					title: 'ID',
+					visible: false
+				},
+				{
+					title: "STT",
+					sortable: true,
+					formatter: function (value, row, index) {
+						return $.table.serialNumber(index);
+					}
+				},
+				{
+					field: 'loginName',
+					title: 'Tên đăng nhập',
+					sortable: true
+				},
+				{
+					field: 'ipaddr',
+					title: 'Địa chỉ đăng nhập'
+				},
+				{
+					field: 'loginLocation',
+					title: 'Đăng nhập vị trí'
+				},
+				{
+					field: 'browser',
+					title: 'Trình duyệt'
+				},
+				{
+					field: 'os',
+					title: 'Hệ điều hành'
+				},
+				{
+					field: 'status',
+					title: 'Trạng thái',
+					align: 'center',
+					formatter: function (value, row, index) {
+						return $.table.selectDictLabel(datas, value);
+					}
+				},
+				{
+					field: 'msg',
+					title: 'Thông tin hoạt động'
+				},
+				{
+					field: 'loginTime',
+					title: 'Thời gian đăng nhập',
+					sortable: true
+				}]
+			};
+			$.table.init(options);
+		});
+
+		function unlock() {
+			$.operate.post(prefix + "/unlock?loginName=" + $.table.selectColumns("loginName"));
+		}
+	</script>
+</body>
+
+</html>

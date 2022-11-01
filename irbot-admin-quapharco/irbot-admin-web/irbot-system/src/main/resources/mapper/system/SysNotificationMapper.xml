@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vn.com.irtech.irbot.system.mapper.SysNotificationMapper">
+    
+    <resultMap type="SysNotification" id="SysNotificationResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="notifyLevel"    column="notify_level"    />
+        <result property="notifyLink"    column="notify_link"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectSysNotificationVo">
+        select id, title, content, notify_level, notify_link, status, create_time, create_by, update_time, update_by from sys_notification
+    </sql>
+
+    <select id="selectSysNotificationList" parameterType="SysNotification" resultMap="SysNotificationResult">
+        <include refid="selectSysNotificationVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="notifyLevel != null "> and notify_level = #{notifyLevel}</if>
+            <if test="notifyLink != null  and notifyLink != ''"> and notify_link = #{notifyLink}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysNotificationById" parameterType="Long" resultMap="SysNotificationResult">
+        <include refid="selectSysNotificationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysNotification" parameterType="SysNotification">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_sys_notification.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into sys_notification
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="notifyLevel != null">notify_level,</if>
+            <if test="notifyLink != null">notify_link,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="notifyLevel != null">#{notifyLevel},</if>
+            <if test="notifyLink != null">#{notifyLink},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate
+         </trim>
+    </insert>
+
+    <update id="updateSysNotification" parameterType="SysNotification">
+        update sys_notification
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="notifyLevel != null">notify_level = #{notifyLevel},</if>
+            <if test="notifyLink != null">notify_link = #{notifyLink},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysNotificationById" parameterType="Long">
+        delete from sys_notification where id = #{id}
+    </delete>
+
+    <delete id="deleteSysNotificationByIds" parameterType="String">
+        delete from sys_notification where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

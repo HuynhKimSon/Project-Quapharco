@@ -1,0 +1,97 @@
+﻿"menu_id","menu_name","parent_id","order_num","url","target","menu_type","visible","is_refresh","perms","icon","create_by","create_time","update_by","update_time","remark"
+1,"Quản lý hệ thống",0,2,"#","","M","0","1","","fa fa-gear","admin",12/2/2021 2:06:02 PM,"admin",12/4/2021 9:02:18 AM,
+2,"Giám sát hệ thống",0,3,"#","","M","0","1","","fa fa-video-camera","admin",12/2/2021 2:06:03 PM,"",,
+3,"Công cụ hệ thống",0,4,"#","menuItem","M","0","1","","fa fa-code","admin",12/2/2021 2:06:03 PM,"admin",12/5/2021 10:55:25 PM,
+4,"Nghiệp vụ Robot",0,1,"#","menuItem","M","0","1","","fa fa-cogs","admin",12/2/2021 2:06:02 PM,"admin",12/5/2021 10:56:45 PM,""
+100,"Quản lý người dùng",1,1,"/system/user","","C","0","1","system:user:view","fa fa-user-o","admin",12/2/2021 2:06:03 PM,"",,
+101,"Phân quyền",1,2,"/system/role","","C","0","1","system:role:view","fa fa-user-secret","admin",12/2/2021 2:06:03 PM,"",,
+102,"Menu hệ thống",1,3,"/system/menu","","C","0","1","system:menu:view","fa fa-th-list","admin",12/2/2021 2:06:03 PM,"",,
+103,"Phòng ban - Bộ phận",1,4,"/system/dept","","C","0","1","system:dept:view","fa fa-outdent","admin",12/2/2021 2:06:03 PM,"",,
+104,"Quản lý chức vụ",1,5,"/system/post","","C","0","1","system:post:view","fa fa-address-card-o","admin",12/2/2021 2:06:03 PM,"",,
+106,"Cấu hình hệ thống",1,7,"/system/config","","C","0","1","system:config:view","fa fa-sun-o","admin",12/2/2021 2:06:03 PM,"",,
+107,"Thông báo",1,8,"/system/notice","","C","0","1","system:notice:view","fa fa-bullhorn","admin",12/2/2021 2:06:03 PM,"",,
+108,"Quản lý log",1,9,"#","","M","0","1","","fa fa-pencil-square-o","admin",12/2/2021 2:06:03 PM,"",,
+109,"Online user",2,1,"/monitor/online","","C","0","1","monitor:online:view","fa fa-user-circle","admin",12/2/2021 2:06:03 PM,"",,
+110,"Quản lý Job",2,2,"/monitor/job","","C","0","1","monitor:job:view","fa fa-tasks","admin",12/2/2021 2:06:04 PM,"",,
+111,"Giám sát dữ liệu",2,3,"/monitor/data","menuItem","C","1","1","monitor:data:view","fa fa-bug","admin",12/2/2021 2:06:04 PM,"admin",12/3/2021 5:37:36 PM,
+112,"Giám sát hệ thống",2,4,"/monitor/server","","C","0","1","monitor:server:view","fa fa-server","admin",12/2/2021 2:06:04 PM,"",,
+113,"Quản lý cache",2,5,"/monitor/cache","","C","0","1","monitor:cache:view","fa fa-cube","admin",12/2/2021 2:06:04 PM,"",,
+114,"Gen html",3,1,"/tool/build","","C","0","1","tool:build:view","fa fa-wpforms","admin",12/2/2021 2:06:04 PM,"",,
+115,"Gen code",3,2,"/tool/gen","","C","0","1","tool:gen:view","fa fa-code","admin",12/2/2021 2:06:04 PM,"",,
+116,"Api docs",3,3,"/tool/swagger","","C","0","1","tool:swagger:view","fa fa-gg","admin",12/2/2021 2:06:04 PM,"",,
+200,"Quản lý Robot",4,3,"/business/robot","menuItem","C","0","1","business:robot:view","fa fa-laptop","admin",12/5/2021 10:50:07 PM,"admin",12/8/2021 1:25:04 PM,""
+500,"Lịch sử hoạt động",108,1,"/monitor/operlog","","C","0","1","monitor:operlog:view","fa fa-address-book","admin",12/2/2021 2:06:04 PM,"",,
+501,"Lịch sử đăng nhập",108,2,"/monitor/logininfor","","C","0","1","monitor:logininfor:view","fa fa-file-image-o","admin",12/2/2021 2:06:04 PM,"",,
+1000,"List",100,1,"#","menuItem","F","0","1","system:user:list","#","admin",12/2/2021 2:06:04 PM,"admin",12/4/2021 9:08:08 AM,""
+1001,"Add",100,2,"#","","F","0","1","system:user:add","#","admin",12/2/2021 2:06:04 PM,"",,""
+1002,"Edit",100,3,"#","","F","0","1","system:user:edit","#","admin",12/2/2021 2:06:04 PM,"",,""
+1003,"Remove",100,4,"#","","F","0","1","system:user:remove","#","admin",12/2/2021 2:06:04 PM,"",,""
+1004,"Export",100,5,"#","","F","0","1","system:user:export","#","admin",12/2/2021 2:06:04 PM,"",,""
+1005,"Import",100,6,"#","","F","0","1","system:user:import","#","admin",12/2/2021 2:06:04 PM,"",,""
+1006,"Reset Password",100,7,"#","","F","0","1","system:user:resetPwd","#","admin",12/2/2021 2:06:04 PM,"",,""
+1007,"List",101,1,"#","","F","0","1","system:role:list","#","admin",12/2/2021 2:06:04 PM,"",,""
+1008,"Add",101,2,"#","","F","0","1","system:role:add","#","admin",12/2/2021 2:06:04 PM,"",,""
+1009,"Edit",101,3,"#","","F","0","1","system:role:edit","#","admin",12/2/2021 2:06:04 PM,"",,""
+1010,"Remove",101,4,"#","","F","0","1","system:role:remove","#","admin",12/2/2021 2:06:04 PM,"",,""
+1011,"Export",101,5,"#","","F","0","1","system:role:export","#","admin",12/2/2021 2:06:04 PM,"",,""
+1012,"List",102,1,"#","","F","0","1","system:menu:list","#","admin",12/2/2021 2:06:04 PM,"",,""
+1013,"Add",102,2,"#","","F","0","1","system:menu:add","#","admin",12/2/2021 2:06:04 PM,"",,""
+1014,"Edit",102,3,"#","","F","0","1","system:menu:edit","#","admin",12/2/2021 2:06:04 PM,"",,""
+1015,"Remove",102,4,"#","","F","0","1","system:menu:remove","#","admin",12/2/2021 2:06:04 PM,"",,""
+1016,"List",103,1,"#","","F","0","1","system:dept:list","#","admin",12/2/2021 2:06:04 PM,"",,""
+1017,"Add",103,2,"#","","F","0","1","system:dept:add","#","admin",12/2/2021 2:06:05 PM,"",,""
+1018,"Edit",103,3,"#","","F","0","1","system:dept:edit","#","admin",12/2/2021 2:06:05 PM,"",,""
+1019,"Remove",103,4,"#","","F","0","1","system:dept:remove","#","admin",12/2/2021 2:06:05 PM,"",,""
+1020,"List",104,1,"#","","F","0","1","system:post:list","#","admin",12/2/2021 2:06:05 PM,"",,""
+1021,"Add",104,2,"#","","F","0","1","system:post:add","#","admin",12/2/2021 2:06:05 PM,"",,""
+1022,"Edit",104,3,"#","","F","0","1","system:post:edit","#","admin",12/2/2021 2:06:05 PM,"",,""
+1023,"Remove",104,4,"#","","F","0","1","system:post:remove","#","admin",12/2/2021 2:06:05 PM,"",,""
+1024,"Export",104,5,"#","","F","0","1","system:post:export","#","admin",12/2/2021 2:06:05 PM,"",,""
+1030,"List",106,1,"#","menuItem","F","0","1","system:config:list","#","admin",12/2/2021 2:06:05 PM,"admin",12/4/2021 9:07:33 AM,""
+1031,"Add",106,2,"#","","F","0","1","system:config:add","#","admin",12/2/2021 2:06:05 PM,"",,""
+1032,"Edit",106,3,"#","","F","0","1","system:config:edit","#","admin",12/2/2021 2:06:05 PM,"",,""
+1033,"Remove",106,4,"#","","F","0","1","system:config:remove","#","admin",12/2/2021 2:06:05 PM,"",,""
+1034,"Export",106,5,"#","","F","0","1","system:config:export","#","admin",12/2/2021 2:06:05 PM,"",,""
+1035,"List",107,1,"#","","F","0","1","system:notice:list","#","admin",12/2/2021 2:06:05 PM,"",,""
+1036,"Add",107,2,"#","","F","0","1","system:notice:add","#","admin",12/2/2021 2:06:05 PM,"",,""
+1037,"Edit",107,3,"#","","F","0","1","system:notice:edit","#","admin",12/2/2021 2:06:06 PM,"",,""
+1038,"Remove",107,4,"#","","F","0","1","system:notice:remove","#","admin",12/2/2021 2:06:06 PM,"",,""
+1039,"List",500,1,"#","","F","0","1","monitor:operlog:list","#","admin",12/2/2021 2:06:06 PM,"",,""
+1040,"Remove",500,2,"#","","F","0","1","monitor:operlog:remove","#","admin",12/2/2021 2:06:06 PM,"",,""
+1041,"Detail",500,3,"#","","F","0","1","monitor:operlog:detail","#","admin",12/2/2021 2:06:06 PM,"",,""
+1042,"Export",500,4,"#","","F","0","1","monitor:operlog:export","#","admin",12/2/2021 2:06:06 PM,"",,""
+1043,"List",501,1,"#","","F","0","1","monitor:logininfor:list","#","admin",12/2/2021 2:06:06 PM,"",,""
+1044,"Remove",501,2,"#","","F","0","1","monitor:logininfor:remove","#","admin",12/2/2021 2:06:06 PM,"",,""
+1045,"Export",501,3,"#","","F","0","1","monitor:logininfor:export","#","admin",12/2/2021 2:06:06 PM,"",,""
+1046,"Unlock",501,4,"#","","F","0","1","monitor:logininfor:unlock","#","admin",12/2/2021 2:06:06 PM,"",,""
+1047,"List",109,1,"#","","F","0","1","monitor:online:list","#","admin",12/2/2021 2:06:06 PM,"",,""
+1048,"Batch Force Logout",109,2,"#","","F","0","1","monitor:online:batchForceLogout","#","admin",12/2/2021 2:06:06 PM,"",,""
+1049,"Force Logout",109,3,"#","","F","0","1","monitor:online:forceLogout","#","admin",12/2/2021 2:06:07 PM,"",,""
+1050,"List",110,1,"#","","F","0","1","monitor:job:list","#","admin",12/2/2021 2:06:07 PM,"",,""
+1051,"Add",110,2,"#","","F","0","1","monitor:job:add","#","admin",12/2/2021 2:06:07 PM,"",,""
+1052,"Edit",110,3,"#","","F","0","1","monitor:job:edit","#","admin",12/2/2021 2:06:07 PM,"",,""
+1053,"Remove",110,4,"#","","F","0","1","monitor:job:remove","#","admin",12/2/2021 2:06:07 PM,"",,""
+1054,"Change Status",110,5,"#","","F","0","1","monitor:job:changeStatus","#","admin",12/2/2021 2:06:07 PM,"",,""
+1055,"Detail",110,6,"#","","F","0","1","monitor:job:detail","#","admin",12/2/2021 2:06:07 PM,"",,""
+1056,"Export",110,7,"#","","F","0","1","monitor:job:export","#","admin",12/2/2021 2:06:07 PM,"",,""
+1057,"List",115,1,"#","","F","0","1","tool:gen:list","#","admin",12/2/2021 2:06:07 PM,"",,""
+1058,"Edit",115,2,"#","","F","0","1","tool:gen:edit","#","admin",12/2/2021 2:06:07 PM,"",,""
+1059,"Remove",115,3,"#","","F","0","1","tool:gen:remove","#","admin",12/2/2021 2:06:07 PM,"",,""
+1060,"Preview",115,4,"#","","F","0","1","tool:gen:preview","#","admin",12/2/2021 2:06:07 PM,"",,""
+1061,"Code",115,5,"#","","F","0","1","tool:gen:code","#","admin",12/2/2021 2:06:07 PM,"",,""
+2000,"List",200,1,"#","","F","0","1","business:robot:list","#","admin",12/5/2021 10:50:07 PM,"",,""
+2001,"Add",200,2,"#","","F","0","1","business:robot:add","#","admin",12/5/2021 10:50:07 PM,"",,""
+2002,"Edit",200,3,"#","","F","0","1","business:robot:edit","#","admin",12/5/2021 10:50:07 PM,"",,""
+2003,"Remove",200,4,"#","","F","0","1","business:robot:remove","#","admin",12/5/2021 10:50:07 PM,"",,""
+2004,"Export",200,5,"#","","F","0","1","business:robot:export","#","admin",12/5/2021 10:50:07 PM,"",,""
+2005,"Đồng bộ GSLCT",4,2,"/business/process-gslct","menuItem","C","0","1","business:process-gslct:view","fa fa-star","admin",4/26/2022 2:39:08 PM.333,"admin",4/26/2022 2:39:51 PM.933,""
+2006,"List",2005,1,"#","menuItem","F","0","1","business:process-gslct:list","#","admin",4/26/2022 2:40:24 PM.533,"",,""
+2007,"Add",2005,2,"#","menuItem","F","0","1","business:process-gslct:add","#","admin",4/26/2022 2:40:51 PM.027,"",,""
+2008,"Edit",2005,3,"#","menuItem","F","0","1","business:process-gslct:edit","#","admin",4/26/2022 2:41:41 PM.473,"",,""
+2009,"Remove",2005,4,"#","menuItem","F","0","1","business:process-gslct:remove","#","admin",4/26/2022 2:42:00 PM.230,"",,""
+2010,"Khai báo danh mục",4,4,"/system/dict","menuItem","C","0","1","system:dict:view","fa fa-bookmark-o","admin",4/29/2022 1:54:32 PM.660,"",,""
+2012,"List",2010,1,"#","menuItem","F","0","1","system:dict:list","#","admin",4/29/2022 1:55:22 PM.663,"",,""
+2013,"Add",2010,2,"#","menuItem","F","0","1","system:dict:add","#","admin",4/29/2022 1:55:46 PM.357,"",,""
+2014,"Edit",2010,3,"#","menuItem","F","0","1","system:dict:edit","#","admin",4/29/2022 1:56:10 PM.133,"",,""
+2015,"Remove",2010,4,"#","menuItem","F","0","1","system:dict:remove","#","admin",4/29/2022 1:56:33 PM.030,"",,""
+2016,"Export",2010,5,"#","menuItem","F","0","1","system:dict:export","#","admin",4/29/2022 1:57:05 PM.187,"",,""

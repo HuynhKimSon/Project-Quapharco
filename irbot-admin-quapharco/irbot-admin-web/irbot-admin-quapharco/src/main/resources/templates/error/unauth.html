@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digiup - 403</title>
+    <link th:href="@{favicon.ico}" rel="shortcut icon" />
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/animate.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+
+<body class="gray-bg">
+    <div class="middle-box text-center animated fadeInDown">
+        <h1>403</h1>
+        <h3 class="font-bold">Bạn không có quyền truy cập!</h3>
+
+        <div class="error-desc">
+            Xin lỗi, bạn không có quyền truy cập, vui lòng không thực hiện các thao tác bất hợp pháp! Bạn có thể trở lại
+            trang chính
+            <a href="javascript:index()" class="btn btn-outline btn-primary btn-xs">Trở về trang chủ</a>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        var ctx = [[@{/}]];
+        function index() {
+            window.top.location = ctx + "index";
+        }
+    </script>
+</body>
+
+</html>

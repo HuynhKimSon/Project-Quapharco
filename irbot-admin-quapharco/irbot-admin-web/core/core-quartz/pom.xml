@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>framework</artifactId>
+        <groupId>vn.com.irtech.core</groupId>
+        <version>4.2.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>core-quartz</artifactId>
+	
+	<description>
+	    quartz cron job
+	</description>
+
+    <dependencies>
+    
+		<!-- Cron job -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId> 
+			<artifactId>quartz</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.mchange</groupId>
+					<artifactId>c3p0</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+        <!-- Common utils-->
+        <dependency>
+            <groupId>vn.com.irtech.core</groupId>
+            <artifactId>core-common</artifactId>
+        </dependency>
+        <!-- Framework -->
+        <dependency>
+            <groupId>vn.com.irtech.core</groupId>
+            <artifactId>core-framework</artifactId>
+        </dependency>
+    </dependencies>
+	
+</project>

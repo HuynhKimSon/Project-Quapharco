@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="renderer" content="webkit">
+	<title>Than Quang Ninh</title>
+	<!-- Avoid IE using compatibility mode -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link th:href="@{favicon.ico}" rel="shortcut icon" />
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/css/jquery.contextMenu.min.css}" rel="stylesheet" />
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+	<link th:href="@{/css/animate.css}" rel="stylesheet" />
+	<link th:href="@{/css/style.css}" rel="stylesheet" />
+	<link th:href="@{/css/skins.css}" rel="stylesheet" />
+	<link th:href="@{/app/css/app.css?v=20210612}" rel="stylesheet" />
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">
+	<div id="wrapper">
+
+		<!--Start left navigation-->
+		<nav class="navbar-default navbar-static-side" role="navigation">
+			<div class="nav-close">
+				<i class="fa fa-times-circle"></i>
+			</div>
+			<a th:href="@{/index}">
+				<li class="logo hidden-xs">
+					<span class="logo-lg">ADMIN</span>
+				</li>
+			</a>
+			<div class="sidebar-collapse">
+				<ul class="nav" id="side-menu">
+					<li>
+						<div class="user-panel">
+							<a class="menuItem noactive" title="Thông tin cá nhân" th:href="@{/system/user/profile}">
+								<div class="hide" th:text="Profile"></div>
+								<div class="pull-left image">
+									<img th:src="(${#strings.isEmpty(user.avatar)}) ? @{/img/profile.jpg} : @{${user.avatar}}"
+										th:onerror="this.src='img/profile.jpg'" class="img-circle" alt="User Image">
+								</div>
+							</a>
+							<div class="pull-left info">
+								<p>[[${user.loginName}]]</p>
+								<a href="#"><i class="fa fa-circle text-success"></i>Online</a>
+								<a th:href="@{logout}" style="padding-left:5px;"><i
+										class="fa fa-sign-out text-danger"></i>Đăng xuất</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a class="menuItem" th:href="@{/system/main}"><i class="fa fa-home"></i> <span
+								class="nav-label">Trang chủ</span> </a>
+					</li>
+					<li th:each="menu : ${menus}">
+						<a th:class="@{${!#strings.isEmpty(menu.url) && menu.url != '#'} ? ${menu.target}}"
+							th:href="@{${#strings.isEmpty(menu.url)} ? |#| : ${menu.url}}"
+							th:data-refresh="${menu.isRefresh == '0'}">
+							<i class="fa fa-bar-chart-o" th:class="${menu.icon}"></i>
+							<span class="nav-label" th:text="${menu.menuName}">一Level menu</span>
+							<span th:class="${#strings.isEmpty(menu.url) || menu.url == '#'} ? |fa arrow|"></span>
+						</a>
+						<ul class="nav nav-second-level collapse">
+							<li th:each="cmenu : ${menu.children}">
+								<a th:if="${#lists.isEmpty(cmenu.children)}"
+									th:class="${#strings.isEmpty(cmenu.target)} ? |menuItem| : ${cmenu.target}"
+									th:utext="${cmenu.menuName}" th:href="@{${cmenu.url}}"
+									th:data-refresh="${cmenu.isRefresh == '0'}">Secondary menu</a>
+								<a th:if="${not #lists.isEmpty(cmenu.children)}" href="#">[[${cmenu.menuName}]]<span
+										class="fa arrow"></span></a>
+								<ul th:if="${not #lists.isEmpty(cmenu.children)}" class="nav nav-third-level">
+									<li th:each="emenu : ${cmenu.children}">
+										<a th:if="${#lists.isEmpty(emenu.children)}"
+											th:class="${#strings.isEmpty(emenu.target)} ? |menuItem| : ${emenu.target}"
+											th:text="${emenu.menuName}" th:href="@{${emenu.url}}"
+											th:data-refresh="${emenu.isRefresh == '0'}">Three-level menu</a>
+										<a th:if="${not #lists.isEmpty(emenu.children)}"
+											href="#">[[${emenu.menuName}]]<span class="fa arrow"></span></a>
+										<ul th:if="${not #lists.isEmpty(emenu.children)}" class="nav nav-four-level">
+											<li th:each="fmenu : ${emenu.children}"><a
+													th:if="${#lists.isEmpty(fmenu.children)}"
+													th:class="${#strings.isEmpty(fmenu.target)} ? |menuItem| : ${fmenu.target}"
+													th:text="${fmenu.menuName}" th:href="@{${fmenu.url}}"
+													th:data-refresh="${fmenu.isRefresh == '0'}">Four-level menu</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li th:if="${demoEnabled}">
+						<a href="#"><i class="fa fa-desktop"></i><span class="nav-label">Ví dụ minh họa</span><span
+								class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+							<li> <a>Hình thức<span class="fa arrow"></span></a>
+								<ul class="nav nav-third-level">
+									<li><a class="menuItem" th:href="@{/demo/form/button}">Button</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/grid}">Grid</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/select}">Select</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/timeline}">Timeline</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/basic}">Basic</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/cards}">Cards</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/jasny}">Function extension</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/sortable}">Sortable</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/invoice}">Invoice</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/labels_tips}">Labels & tips</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/tabs_panels}">Tabs & panels</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/validate}">Validate</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/wizard}">Wizard</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/upload}">File upload</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/datetime}">Date and time</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/summernote}">Rich text editor</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/duallistbox}">Left and right mutually
+											select components</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/autocomplete}">Search autocomplete</a>
+									</li>
+									<li><a class="menuItem" th:href="@{/demo/form/cxselect}">Multi-level linkage
+											drop-down</a></li>
+									<li><a class="menuItem" th:href="@{/demo/form/localrefresh}">Ajax partial
+											refresh</a></li>
+								</ul>
+							</li>
+							<li> <a>Form<span class="fa arrow"></span></a>
+								<ul class="nav nav-third-level">
+									<li><a class="menuItem" th:href="@{/demo/table/search}">Search</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/footer}">Footer</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/groupHeader}">Group header</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/export}">Export</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/exportSelected}">Export selected</a>
+									</li>
+									<li><a class="menuItem" th:href="@{/demo/table/remember}">Remember</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/pageGo}">PageGo</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/params}">Params</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/multi}">Multi</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/button}">Button</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/data}">Data</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/fixedColumns}">Fixed columns</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/event}">Event</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/headerStyle}">Header style</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/detail}">Detail</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/child}">Child</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/image}">Image</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/curd}">CRUD</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/reorderRows}">Reorder rows</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/reorderColumns}">Reorder columns</a>
+									</li>
+									<li><a class="menuItem" th:href="@{/demo/table/resizable}">Resizeable</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/editable}">Editable</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/subdata}">Sub data</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/refresh}">Refresh</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/print}">Print</a></li>
+									<li><a class="menuItem" th:href="@{/demo/table/dynamicColumns}">Dynamic Columns</a>
+									</li>
+									<li><a class="menuItem" th:href="@{/demo/table/other}">Other</a></li>
+								</ul>
+							</li>
+							<li> <a>Bullet frame<span class="fa arrow"></span></a>
+								<ul class="nav nav-third-level">
+									<li><a class="menuItem" th:href="@{/demo/modal/dialog}">Dialog</a></li>
+									<li><a class="menuItem" th:href="@{/demo/modal/layer}">Layer</a></li>
+									<li><a class="menuItem" th:href="@{/demo/modal/table}">Table</a></li>
+								</ul>
+							</li>
+							<li> <a>Operation<span class="fa arrow"></span></a>
+								<ul class="nav nav-third-level">
+									<li><a class="menuItem" th:href="@{/demo/operate/table}">Table</a></li>
+									<li><a class="menuItem" th:href="@{/demo/operate/other}">Other</a></li>
+								</ul>
+							</li>
+							<li> <a>Report<span class="fa arrow"></span></a>
+								<ul class="nav nav-third-level">
+									<li><a class="menuItem" th:href="@{/demo/report/echarts}">ECharts</a></li>
+									<li><a class="menuItem" th:href="@{/demo/report/peity}">Peity</a></li>
+									<li><a class="menuItem" th:href="@{/demo/report/sparkline}">Sparkline</a></li>
+									<li><a class="menuItem" th:href="@{/demo/report/metrics}">Metrics</a></li>
+								</ul>
+							</li>
+							<li> <a>Icon<span class="fa arrow"></span></a>
+								<ul class="nav nav-third-level">
+									<li><a class="menuItem" th:href="@{/demo/icon/fontawesome}">Font Awesome</a></li>
+									<li><a class="menuItem" th:href="@{/demo/icon/glyphicons}">Glyphicons</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#"><i class="fa fa-sitemap"></i>Four-tier menu<span
+										class="fa arrow"></span></a>
+								<ul class="nav nav-third-level collapse">
+									<li>
+										<a href="#" id="damian">Three-level menu 1<span class="fa arrow"></span></a>
+										<ul class="nav nav-third-level">
+											<li>
+												<a href="#">Four-level menu 1</a>
+											</li>
+											<li>
+												<a href="#">Four-level menu 2</a>
+											</li>
+										</ul>
+									</li>
+									<li><a href="#">Three-level menu 2</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!--End of left navigation-->
+
+		<!--Start on the right part-->
+		<div id="page-wrapper" class="gray-bg dashbard-1">
+			<div class="row border-bottom">
+				<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+					<div class="navbar-header">
+						<a class="navbar-minimalize minimalize-styl-2" style="color:#FFF;" href="#"
+							title="Collapse menu">
+							<i class="fa fa-bars"></i>
+						</a>
+					</div>
+					<ul class="nav navbar-top-links navbar-right welcome-message">
+						<li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="Tài liệu"
+								href="http://doc.ruoyi.vip/ruoyi" target="_blank"><i class="fa fa-question-circle"></i>
+								Tài liệu</a></li>
+						<li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="Màn hình khóa"
+								href="#" id="lockScreen"><i class="fa fa-lock"></i> Màn hình khóa</a></li>
+						<li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="Toàn màn hình"
+								href="#" id="fullScreen"><i class="fa fa-arrows-alt"></i> Toàn màn hình</a></li>
+						<li class="dropdown user-menu">
+							<a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
+								<img th:src="(${#strings.isEmpty(user.avatar)}) ? @{/img/profile.jpg} : @{${user.avatar}}"
+									th:onerror="this.src='img/profile.jpg'" class="user-image">
+								<span class="hidden-xs">[[${#strings.defaultString(user.userName, '-')}]]</span>
+							</a>
+							<ul class="dropdown-menu">
+								<li class="mt5">
+									<a th:href="@{/system/user/profile}" class="menuItem noactive">
+										<i class="fa fa-user"></i> Thông tin cá nhân</a>
+								</li>
+								<li>
+									<a onclick="resetPwd()">
+										<i class="fa fa-key"></i> Thay đổi mật khẩu</a>
+								</li>
+								<li>
+									<a onclick="switchSkin()">
+										<i class="fa fa-dashboard"></i> Đổi theme</a>
+								</li>
+								<li>
+									<a onclick="toggleMenu()">
+										<i class="fa fa-toggle-off"></i> Chuyển menu</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a th:href="@{logout}">
+										<i class="fa fa-sign-out"></i> Đăng xuất</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<div class="row content-tabs">
+				<button class="roll-nav roll-left tabLeft">
+					<i class="fa fa-backward"></i>
+				</button>
+				<nav class="page-tabs menuTabs">
+					<div class="page-tabs-content">
+						<a href="javascript:;" class="active menuTab" th:data-id="@{/system/main}">Trang chủ</a>
+					</div>
+				</nav>
+				<button class="roll-nav roll-right tabRight">
+					<i class="fa fa-forward"></i>
+				</button>
+				<a href="javascript:void(0);" class="roll-nav roll-right tabReload"><i class="fa fa-refresh"></i></a>
+			</div>
+
+			<a id="ax_close_max" class="ax_close_max" href="#" title="Turn off full screen"> <i
+					class="fa fa-times-circle-o"></i> </a>
+
+			<div class="row mainContent" id="content-main"
+				th:style="${#bools.isFalse(ignoreFooter)} ? |height: calc(100% - 91px)|">
+				<iframe class="RuoYi_iframe" name="iframe0" width="100%" height="100%" th:data-id="@{/system/main}"
+					th:src="@{/system/main}" frameborder="0" seamless></iframe>
+			</div>
+
+			<div th:if="${ignoreFooter}" class="footer">
+				<div class="pull-right">© [[${copyrightYear}]] IRTech Copyright </div>
+			</div>
+		</div>
+		<!--右侧部分结束-->
+	</div>
+	<!-- Global js -->
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+	<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+	<script th:src="@{/js/jquery.contextMenu.min.js}"></script>
+	<script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+	<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+	<script th:src="@{/app/js/app.js?v=20210603}"></script>
+	<script th:src="@{/app/js/common.js?v=20210603}"></script>
+	<script th:src="@{/app/index.js?v=20211127}"></script>
+	<script th:src="@{/ajax/libs/fullscreen/jquery.fullscreen.js}"></script>
+	<script th:inline="javascript">
+		window.history.forward(1);
+		var ctx = [[@{/}]]; 
+		var lockscreen = [[${ session.lockscreen }]];
+		if (lockscreen) { window.top.location = ctx + "lockscreen"; }
+		// 皮肤缓存
+		var skin = storage.get("skin");
+		// history（表示去掉地址的#）否则地址以"#"形式展示
+		var mode = "history";
+		// 历史访问路径缓存
+		var historyPath = storage.get("historyPath");
+		// 是否页签与菜单联动
+		var isLinkage = true;
+
+		// 本地主题优先，未设置取系统配置
+		if ($.common.isNotEmpty(skin)) {
+			$("body").addClass(skin.split('|')[0]);
+			$("body").addClass(skin.split('|')[1]);
+		} else {
+			$("body").addClass([[${ sideTheme }]]);
+			$("body").addClass([[${ skinName }]]);
+		}
+
+		/* 用户管理-重置密码 */
+		function resetPwd() {
+			var url = ctx + 'system/user/profile/resetPwd';
+			$.modal.open("Reset Password", url, '770', '380');
+		}
+
+		/* 切换主题 */
+		function switchSkin() {
+			layer.open({
+				type: 2,
+				shadeClose: true,
+				title: "Switch theme",
+				area: ["530px", "386px"],
+				content: [ctx + "system/switchSkin", 'no']
+			})
+		}
+
+		/* 切换菜单 */
+		function toggleMenu() {
+			$.modal.confirm("Bạn có chắc chắn muốn chuyển sang menu ngang không？", function () {
+				$.get(ctx + 'system/menuStyle/topnav', function (result) {
+					window.location.reload();
+				});
+			})
+		}
+
+		/** 刷新时访问路径页签 */
+		function applyPath(url) {
+			$('a[href$="' + decodeURI(url) + '"]').click();
+			if (!$('a[href$="' + url + '"]').hasClass("noactive")) {
+				$('a[href$="' + url + '"]').parent("li").addClass("selected").parents("li").addClass("active").end().parents("ul").addClass("in");
+			}
+		}
+
+		$(function () {
+			var lockPath = storage.get('lockPath');
+			if ($.common.equals("history", mode) && window.performance.navigation.type == 1) {
+				var url = storage.get('publicPath');
+				if ($.common.isNotEmpty(url)) {
+					applyPath(url);
+				}
+			} else if ($.common.isNotEmpty(lockPath)) {
+				applyPath(lockPath);
+				storage.remove('lockPath');
+			} else {
+				var hash = location.hash;
+				if ($.common.isNotEmpty(hash)) {
+					var url = hash.substring(1, hash.length);
+					applyPath(url);
+				} else {
+					if ($.common.equals("history", mode)) {
+						storage.set('publicPath', "");
+					}
+				}
+			}
+
+			/* 初始密码提示 */
+			if ([[${ isDefaultModifyPwd }]]) {
+				layer.confirm("Mật khẩu của bạn vẫn là mật khẩu ban đầu, vui lòng thay đổi mật khẩu của bạn！", {
+					icon: 0,
+					title: "Cảnh báo an toàn",
+					btn: ['Xác nhận', 'hủy bỏ'],
+					offset: ['30%']
+				}, function (index) {
+					resetPwd();
+					layer.close(index);
+				});
+			}
+
+			/* 过期密码提示 */
+			if ([[${ isPasswordExpired }]]) {
+				layer.confirm("Mật khẩu của bạn đã hết hạn, vui lòng thay đổi mật khẩu càng sớm càng tốt！", {
+					icon: 0,
+					title: "cảnh báo an toàn",
+					btn: ['Xác nhận', 'Hủy bỏ'],
+					offset: ['30%']
+				}, function (index) {
+					resetPwd();
+					layer.close(index);
+				});
+			}
+			$("[data-toggle='tooltip']").tooltip();
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="vn.com.irtech.irbot.business.mapper.WorkProcessMapper">
+
+	<resultMap type="WorkProcess" id="WorkProcessResult">
+		<result property="id" column="id" />
+		<result property="serviceId" column="service_id" />
+		<result property="syncId" column="sync_id" />
+		<result property="syncKey" column="sync_key" />
+		<result property="data1" column="data_1" />
+		<result property="data2" column="data_2" />
+		<result property="data3" column="data_3" />
+		<result property="data4" column="data_4" />
+		<result property="data5" column="data_5" />
+		<result property="priority" column="priority" />
+		<result property="status" column="status" />
+		<result property="error" column="error" />
+		<result property="dataRequest" column="data_request" />
+		<result property="dataResponse" column="data_response" />
+		<result property="robotUuid" column="robot_uuid" />
+		<result property="startDate" column="start_date" />
+		<result property="endDate" column="end_date" />
+		<result property="createBy" column="create_by" />
+		<result property="createTime" column="create_time" />
+		<result property="updateBy" column="update_by" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+	<sql id="selectWorkProcessVo">
+		select id, service_id, sync_id, sync_key, data_1, data_2, data_3, data_4, data_5, priority, status,
+		error,
+		data_request, data_response, robot_uuid, start_date, end_date,
+		create_by, create_time, update_by, update_time from work_process
+	</sql>
+
+	<select id="selectWorkProcessList" parameterType="WorkProcess"
+		resultMap="WorkProcessResult">
+		<include refid="selectWorkProcessVo" />
+		<where>
+			<if test="syncId != null"> and sync_id = #{syncId}</if>
+			<if test="serviceId != null and serviceId != ''"> and service_id = #{serviceId}</if>
+			<if test="syncKey != null and syncKey != ''"> and sync_key = #{syncKey}</if>
+			<if test="data1 != null and data1 != ''"> and data_1 = #{data1}</if>
+			<if test="data2 != null and data2 != ''"> and data_2 = #{data2}</if>
+			<if test="data3 != null and data3 != ''"> and data_3 = #{data3}</if>
+			<if test="data4 != null and data4 != ''"> and data_4 = #{data4}</if>
+			<if test="data5 != null and data5 != ''"> and data_5 = #{data5}</if>
+			<if test="priority != null "> and priority = #{priority}</if>
+			<if test="status != null "> and status = #{status}</if>
+			<if test="error != null  and error != ''"> and error = #{error}</if>
+			<if test="dataRequest != null  and dataRequest != ''"> and data_request = #{dataRequest}</if>
+			<if test="dataResponse != null  and dataResponse != ''"> and data_response = #{dataResponse}</if>
+			<if test="robotUuid != null  and robotUuid != ''"> and robot_uuid = #{robotUuid}</if>
+			<if test="startDate != null "> and start_date = #{startDate}</if>
+			<if test="endDate != null "> and end_date = #{endDate}</if>
+			<if test="params.createTime != null">
+				AND convert(varchar, create_time, 23) = #{params.createTime}
+			</if>
+		</where>
+		ORDER BY id DESC
+	</select>
+
+	<select id="selectWorkProcessById" parameterType="Long"
+		resultMap="WorkProcessResult">
+		<include refid="selectWorkProcessVo" />
+		where id = #{id}
+	</select>
+
+	<select id="selectWorkProcessBySyncKey" parameterType="String"
+		resultMap="WorkProcessResult">
+		<include refid="selectWorkProcessVo" />
+		where sync_key = #{syncKey}
+	</select>
+
+	<insert id="insertWorkProcess" parameterType="WorkProcess"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into work_process
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="serviceId != null">service_id,</if>
+			<if test="syncId != null">sync_id,</if>
+			<if test="syncKey != null">sync_key,</if>
+			<if test="data1 != null">data_1,</if>
+			<if test="data2 != null">data_2,</if>
+			<if test="data3 != null">data_3,</if>
+			<if test="data4 != null">data_4,</if>
+			<if test="data5 != null">data_5,</if>
+			<if test="priority != null">priority,</if>
+			<if test="status != null">status,</if>
+			<if test="error != null">error,</if>
+			<if test="dataRequest != null">data_request,</if>
+			<if test="dataResponse != null">data_response,</if>
+			<if test="robotUuid != null">robot_uuid,</if>
+			<if test="startDate != null">start_date,</if>
+			<if test="endDate != null">end_date,</if>
+			<if test="createBy != null">create_by,</if>
+			<if test="updateBy != null">update_by,</if>
+			<if test="updateTime != null">update_time,</if>
+			create_time
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="serviceId != null">#{serviceId},</if>
+			<if test="syncId != null">#{syncId},</if>
+			<if test="syncKey != null">#{syncKey},</if>
+			<if test="data1 != null">#{data1},</if>
+			<if test="data2 != null">#{data2},</if>
+			<if test="data3 != null">#{data3},</if>
+			<if test="data4 != null">#{data4},</if>
+			<if test="data5 != null">#{data5},</if>
+			<if test="priority != null">#{priority},</if>
+			<if test="status != null">#{status},</if>
+			<if test="error != null">#{error},</if>
+			<if test="dataRequest != null">#{dataRequest},</if>
+			<if test="dataResponse != null">#{dataResponse},</if>
+			<if test="robotUuid != null">#{robotUuid},</if>
+			<if test="startDate != null">#{startDate},</if>
+			<if test="endDate != null">#{endDate},</if>
+			<if test="createBy != null">#{createBy},</if>
+			<if test="updateBy != null">#{updateBy},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+			getdate()
+		</trim>
+	</insert>
+
+	<update id="updateWorkProcess" parameterType="WorkProcess">
+		update work_process
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="serviceId != null">service_id = #{serviceId},</if>
+			<if test="syncId != null">sync_id = #{syncId},</if>
+			<if test="syncKey != null">sync_key = #{syncKey},</if>
+			<if test="data1 != null">data_1 = #{data1},</if>
+			<if test="data2 != null">data_2 = #{data2},</if>
+			<if test="data3 != null">data_3 = #{data3},</if>
+			<if test="data4 != null">data_4 = #{data4},</if>
+			<if test="data5 != null">data_5 = #{data5},</if>
+			<if test="priority != null">priority = #{priority},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="error != null">error = #{error},</if>
+			<if test="dataRequest != null">data_request = #{dataRequest},</if>
+			<if test="dataResponse != null">data_response = #{dataResponse},</if>
+			<if test="robotUuid != null">robot_uuid = #{robotUuid},</if>
+			<if test="startDate != null">start_date = #{startDate},</if>
+			<if test="endDate != null">end_date = #{endDate},</if>
+			<if test="createBy != null">create_by = #{createBy},</if>
+			<if test="createTime != null">create_time = #{createTime},</if>
+			<if test="updateBy != null">update_by = #{updateBy},</if>
+			update_time = getdate()
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<update id="updateWorkProcessSyncKey" parameterType="WorkProcess">
+		update work_process
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="serviceId != null">service_id = #{serviceId},</if>
+			<if test="syncId != null">sync_id = #{syncId},</if>
+			<if test="syncKey != null">sync_key = #{syncKey},</if>
+			<if test="data1 != null">data_1 = #{data1},</if>
+			<if test="data2 != null">data_2 = #{data2},</if>
+			<if test="data3 != null">data_3 = #{data3},</if>
+			<if test="data4 != null">data_4 = #{data4},</if>
+			<if test="data5 != null">data_5 = #{data5},</if>
+			<if test="priority != null">priority = #{priority},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="error != null">error = #{error},</if>
+			<if test="dataRequest != null">data_request = #{dataRequest},</if>
+			<if test="dataResponse != null">data_response = #{dataResponse},</if>
+			<if test="robotUuid != null">robot_uuid = #{robotUuid},</if>
+			<if test="startDate != null">start_date = #{startDate},</if>
+			<if test="endDate != null">end_date = #{endDate},</if>
+			<if test="createBy != null">create_by = #{createBy},</if>
+			<if test="createTime != null">create_time = #{createTime},</if>
+			<if test="updateBy != null">update_by = #{updateBy},</if>
+			update_time = getdate()
+		</trim>
+		where sync_key = #{syncKey}
+	</update>
+
+	<delete id="deleteWorkProcessById" parameterType="Long">
+		delete from
+		work_process where id = #{id}
+	</delete>
+
+	<delete id="deleteWorkProcessByIds" parameterType="String">
+		delete from work_process where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="countByStatuses" resultType="Integer">
+    	select count(*) from work_process where service_id = #{serviceId} AND status in
+    	<foreach item="status" collection="statuses" open="(" separator="," close=")">
+            #{status}
+        </foreach>	
+        <if test="fromDate != null and toDate != null">
+        	AND (create_time BETWEEN #{fromDate} AND #{toDate})
+        </if>
+    </select>
+	
+</mapper>

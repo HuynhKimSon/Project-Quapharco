@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <th:block th:include="include :: header('Detail Invoice')" />
+  <th:block th:include="include :: datetimepicker-css" />
+</head>
+
+<body class="white-bg">
+  <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="formDetail" name="formDetail" th:object="${hdbhNb}">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Số chứng từ:</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="text" name="fastInvoiceNo" id="fastInvoiceNo"
+                th:field="*{fastInvoiceNo}" disabled />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Số hóa đơn:</label>
+            <div class="col-sm-8" style="display: flex;">
+              <input class="form-control" type="text" name="eInvoiceNo" id="eInvoiceNo" th:field="*{eInvoiceNo}" />
+              <a class="btn btn-success btn-xs ma2" href="javascript:void(0)" title="Sửa số hóa đơn"
+                onclick="updateEInvoiceNo()" style="width: 30px; margin-left:5px;">
+                <i class="fa fa-save" style="line-height: 26px;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Trạng thái:</label>
+            <div class="col-sm-8" th:switch="${hdbhNb.processStatus}">
+              <div th:case="1" class="label label-warning" style="vertical-align: bottom">
+                Chờ thực hiện
+              </div>
+              <div th:case="2" class="label label-warning" style="vertical-align: bottom">
+                Đã gửi
+              </div>
+              <div th:case="3" class="label label-success" style="vertical-align: bottom">
+                Đang làm
+              </div>
+              <div th:case="4" class="label label-danger" style="vertical-align: bottom">
+                Thất bại
+              </div>
+              <div th:case="5" class="label label-primary" style="vertical-align: bottom">
+                Thành công
+              </div>
+              <div th:case="*" class="label label-default" style="vertical-align: bottom">
+                Chưa làm
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Ngày chứng từ:</label>
+            <div class="col-sm-8">
+              <input class="form-control time-input" type="text" name="invoiceDate" id="invoiceDate"
+                th:value="${#dates.format(hdbhNb.invoiceDate, 'yyyy-MM-dd')}" disabled />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Tên khách hàng:</label>
+            <div class="col-sm-8">
+              <input class="form-control time-input" type="text" name="customerName" id="customerName"
+                th:field="*{customerName}" disabled />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Mã số thuế:</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="text" name="customerTaxCode" id="customerTaxCode"
+                th:field="*{customerTaxCode}" disabled />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Người vận chuyển:</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="text" name="transporter" id="transporter" th:field="*{transporter}"
+                disabled />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Tổng tiền:</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="text" name="totalAmount" id="totalAmount" disabled />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Kho nhập</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="text" name="stockIn" id="stockIn" th:field="*{stockIn}" disabled />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Số lệnh:</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="text" name="orderNo" id="orderNo" th:field="*{orderNo}" disabled />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Diễn giải:</label>
+            <div class="col-sm-10">
+              <input class="form-control" type="text" name="description" id="description" th:field="*{description}"
+                disabled />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+
+    <div class="row">
+      <div class="col-sm-12" id="chi-tiet"><label class="col-sm-2 control-label" style="font-weight: bold;">Chi
+          tiết</label></div>
+      <div class="col-sm-12">
+        <table id="bootstrap-table"></table>
+      </div>
+    </div>
+
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript" th:inline="javascript">
+      var hdbhNb = /*[[${hdbhNb}]]*/;
+      var details = hdbhNb.details;
+      $('#totalAmount').val($.common.currencyFormat(hdbhNb.totalAmount));
+    </script>
+    <script th:src="@{/app/js/business/hdbh-nb/detail.js}"></script>
+</body>
+
+</html>

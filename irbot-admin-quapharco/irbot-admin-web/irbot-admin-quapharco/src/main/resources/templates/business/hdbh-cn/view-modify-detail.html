@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <th:block th:include="include :: header('Detail Invoice')" />
+  <th:block th:include="include :: datetimepicker-css" />
+</head>
+
+<body class="white-bg">
+  <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <div class="row">
+      <div class="col-sm-12">
+        <table id="bootstrap-table"></table>
+      </div>
+    </div>
+
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript" th:inline="javascript">
+      var hdbhCn = /*[[${result}]]*/;
+      var details = hdbhCn.details;
+    </script>
+    <script th:src="@{/app/js/business/hdbh-cn/view-modify-detail.js}"></script>
+</body>
+
+</html>
